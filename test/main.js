@@ -25,6 +25,26 @@ var __runTests = function( module ) {
     
     console.log( "module", module );
 
+    var v = new mathgasm.Vec2( 1, 2 );
+    var u = new mathgasm.Vec2( 3, 4 );
+    var w = new mathgasm.Vec2( 10, 20 );
+    var norm = new mathgasm.Vec2( 1, 0 );
+    
+    console.log( "v", v );
+    console.log( "u", u );
+    console.log( "w", w );
+    console.log( "add", v.add(u) );
+    console.log( "sub", v.sub(u) );
+    console.log( "mul 10", v.mul( 10 ) );
+    console.log( "mul 10, 20", v.mul( 10, 20 ) );
+    console.log( "mad", v.mad( u, w ) );
+    console.log( "length", v.length() );
+    console.log( "normalized", v.normalized() );
+    console.log( "normalized.length", v.normalized().length() );
+    console.log( "dot", v.normalized().dot(v) );
+    console.log( "dot", v.normalized().dot(u) );
+    console.log( "lerped", v.lerped( u, 0.5 ) );
+    console.log( "length norm", norm.length() );
 };
 
 gogogo = function() {   

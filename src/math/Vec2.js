@@ -4,26 +4,119 @@ class Vec2 {
     constructor( x, y ) {
         this.x = x;
         this.y = y;
+
+        // this.byteSize = 8;
     }
 
     add( v ) {
-        // load values into memory
-        console.log( "heap pointer", __Native.getHeapPtr() );
-        console.log( "this", this );
-        console.log( "v", v );
-        var ptrV0 = __Native.new_mathgasm_float2( this.x, this.y );
-        var ptrV1 = __Native.new_mathgasm_float2( v.x, v.y );
-        var ptrV2 = __Native.mathgasm_float2_add( ptrV0, ptrV1 );
-        __Native.free( ptrV0 );
-        __Native.free( ptrV1 );
+        // load vectors into memory
+        mathgasm.Heap.HEAPF32[ 0 ] = this.x;
+        mathgasm.Heap.HEAPF32[ 1 ] = this.y;
+        mathgasm.Heap.HEAPF32[ 2 ] = v.x;
+        mathgasm.Heap.HEAPF32[ 3 ] = v.y;
 
-        var heap = __Native.memory.buffer;
-        var dataHeap = new Uint8Array( heap, ptrV2, 2 * 4 );
-        var data = new Float32Array( dataHeap.buffer, dataHeap.byteOffset, 2 );
-        var result = new Vec2( data[ 0 ], data[ 1 ] );
-        __Native.free( ptrV2 );
-        // __Native.getHeapPtr()
-        return result;
+        // execute
+        mathgasm.__Native._mathgasm_float2_add( 0, 8, 16 ); 
+
+        // copy result
+        return new Vec2( mathgasm.Heap.HEAPF32[ 4 ], mathgasm.Heap.HEAPF32[ 5 ] );
+    }
+
+    sub( v ) {
+        // load vectors into memory
+        mathgasm.Heap.HEAPF32[ 0 ] = this.x;
+        mathgasm.Heap.HEAPF32[ 1 ] = this.y;
+        mathgasm.Heap.HEAPF32[ 2 ] = -v.x;
+        mathgasm.Heap.HEAPF32[ 3 ] = -v.y;
+
+        // execute
+        mathgasm.__Native._mathgasm_float2_add( 0, 8, 16 ); 
+
+        // copy result
+        return new Vec2( mathgasm.Heap.HEAPF32[ 4 ], mathgasm.Heap.HEAPF32[ 5 ] );
+    }
+
+    mul( x = 1, y = x ) {
+        // load vectors into memory
+        mathgasm.Heap.HEAPF32[ 0 ] = this.x;
+        mathgasm.Heap.HEAPF32[ 1 ] = this.y;
+        mathgasm.Heap.HEAPF32[ 2 ] = x;
+        mathgasm.Heap.HEAPF32[ 3 ] = y;
+
+        // execute
+        mathgasm.__Native._mathgasm_float2_mul( 0, 8, 16 ); 
+
+        // copy result
+        return new Vec2( mathgasm.Heap.HEAPF32[ 4 ], mathgasm.Heap.HEAPF32[ 5 ] );
+    }
+
+    mad( v, u ) {
+        // load vectors into memory
+        mathgasm.Heap.HEAPF32[ 0 ] = this.x;
+        mathgasm.Heap.HEAPF32[ 1 ] = this.y;
+        mathgasm.Heap.HEAPF32[ 2 ] = v.x;
+        mathgasm.Heap.HEAPF32[ 3 ] = v.y;
+        mathgasm.Heap.HEAPF32[ 4 ] = u.x;
+        mathgasm.Heap.HEAPF32[ 5 ] = u.y;
+
+        // execute
+        mathgasm.__Native._mathgasm_float2_mad( 0, 8, 16, 24 ); 
+
+        // copy result
+        return new Vec2( mathgasm.Heap.HEAPF32[ 6 ], mathgasm.Heap.HEAPF32[ 7 ] );
+    }
+
+    length() {
+        // load vectors into memory
+        mathgasm.Heap.HEAPF32[ 0 ] = this.x;
+        mathgasm.Heap.HEAPF32[ 1 ] = this.y;
+        
+        // execute
+        mathgasm.__Native._mathgasm_float2_length( 0, 8 ); 
+
+        // copy result
+        return mathgasm.Heap.HEAPF32[ 2 ];
+    }
+
+     dot( v ) {
+        // load vectors into memory
+        mathgasm.Heap.HEAPF32[ 0 ] = this.x;
+        mathgasm.Heap.HEAPF32[ 1 ] = this.y;
+        mathgasm.Heap.HEAPF32[ 2 ] = v.x;
+        mathgasm.Heap.HEAPF32[ 3 ] = v.y;
+        
+        // execute
+        mathgasm.__Native._mathgasm_float2_dot( 0, 8, 16 ); 
+
+        // copy result
+        return mathgasm.Heap.HEAPF32[ 4 ];
+    }
+
+    normalized() {
+        // load vectors into memory
+        mathgasm.Heap.HEAPF32[ 0 ] = this.x;
+        mathgasm.Heap.HEAPF32[ 1 ] = this.y;
+
+        // execute
+        mathgasm.__Native._mathgasm_float2_normalize( 0, 8 ); 
+
+        // copy result
+        return new Vec2( mathgasm.Heap.HEAPF32[ 2 ], mathgasm.Heap.HEAPF32[ 3 ] );
+    }
+
+    lerped( v, dt ) {
+         // load vectors into memory
+        mathgasm.Heap.HEAPF32[ 0 ] = this.x;
+        mathgasm.Heap.HEAPF32[ 1 ] = this.y;
+        mathgasm.Heap.HEAPF32[ 2 ] = v.x;
+        mathgasm.Heap.HEAPF32[ 3 ] = v.y;
+        mathgasm.Heap.HEAPF32[ 4 ] = dt;
+
+        // execute
+        mathgasm.__Native._mathgasm_float2_lerp( 0, 8, 16, 20 ); 
+
+        // copy result
+        return new Vec2( mathgasm.Heap.HEAPF32[ 5 ], mathgasm.Heap.HEAPF32[ 6 ] );
     }
 }
 

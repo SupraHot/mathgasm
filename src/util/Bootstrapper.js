@@ -8,41 +8,77 @@ let __Native = {};
 class Bootstrapper {
     
     constructor() {
-
+        
     }
 
     initialize( path, callback ) {
-        fetch( path )
-        .then( response => response.arrayBuffer() )
-        .then( buffer => WebAssembly.compile( buffer ) )
-        .then( module => {
-            const imports = {
-                env: {
-                    memoryBase: 0,
-                    tableBase: 0,
-                    memory: new WebAssembly.Memory({
-                        initial: 512
-                    }),
-                    table: new WebAssembly.Table({
-                        initial: 0,
-                        element: 'anyfunc'
-                    }),
-                    DYNAMICTOP_PTR : 0,
-                    tempDoublePtr : 0,
-                    STACKTOP: 0,
-                    STACK_MAX: 0,
-                    ABORT : 0,
-                    abortStackOverflow : function(){},
-                    _malloc : Heap.malloc.bind( Heap ),
-                    _printf : console.log
-                },
-                global: {
-                    NaN :0,
-                    Infinity : 0
-                }
-            }
+        // fetch( path )
+        // .then( response => response.arrayBuffer() )
+        // .then( buffer => WebAssembly.compile( buffer ) )
+        // .then( module => {
+        //     const imports = {
+        //         env: {
+        //             memoryBase: 0,
+        //             tableBase: 0,
+        //             memory: new WebAssembly.Memory({
+        //                 initial: 128
+        //             }),
+        //             table: new WebAssembly.Table({
+        //                 initial: 0,
+        //                 element: 'anyfunc'
+        //             }),
+        //             DYNAMICTOP_PTR : 0,
+        //             tempDoublePtr : 0,
+        //             STACKTOP: 0,
+        //             STACK_MAX: 0,
+        //             ABORT : 0,
+        //             abortStackOverflow : function(){},
+        //             _malloc : Heap.malloc.bind( Heap ),
+        //             _printf : console.log
+        //         },
+        //         global: {
+        //             NaN :0,
+        //             Infinity : 0
+        //         }
+        //     }
 
-            const wasmModule = new WebAssembly.Instance( module, imports );
+        //     const wasmModule = new WebAssembly.Instance( module, imports );
+        //     Heap.__init( imports.env.memory );
+        //     __Native = wasmModule.exports;
+        // })
+        // .then( callback );
+
+        const imports = {
+            env: {
+                memoryBase: 0,
+                tableBase: 0,
+                memory: new WebAssembly.Memory({
+                    initial: 256
+                }),
+                table: new WebAssembly.Table({
+                    initial: 0,
+                    element: 'anyfunc'
+                }),
+                DYNAMICTOP_PTR : 0,
+                tempDoublePtr : 0,
+                STACKTOP: 0,
+                STACK_MAX: 0,
+                ABORT : 0,
+                abortStackOverflow : function(){},
+                _malloc : Heap.malloc.bind( Heap ),
+                _printf : console.log
+            },
+            global: {
+                NaN :0,
+                Infinity : 0
+            }
+        };
+
+        fetch( path )
+        .then(response =>response.arrayBuffer())
+        .then(bytes => WebAssembly.instantiate( bytes, imports ))
+        .then(results => {
+            const wasmModule = results.instance;
             Heap.__init( imports.env.memory );
             __Native = wasmModule.exports;
         })

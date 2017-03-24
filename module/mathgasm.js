@@ -1,5 +1,5 @@
 // COMPILE TIME DEFINITIONS (Generated via gulp) 
-var __DATE__ = "Fri Mar 24 2017 15:28:53 GMT+0100 (CET)"; 
+var __DATE__ = "Fri Mar 24 2017 21:11:15 GMT+0100 (CET)"; 
 // END COMPILE TIME DEFINITIONS 
  
 console.log('Compiled at', __DATE__);
@@ -229,38 +229,74 @@ var Bootstrapper = function () {
     createClass(Bootstrapper, [{
         key: 'initialize',
         value: function initialize(path, callback) {
+            // fetch( path )
+            // .then( response => response.arrayBuffer() )
+            // .then( buffer => WebAssembly.compile( buffer ) )
+            // .then( module => {
+            //     const imports = {
+            //         env: {
+            //             memoryBase: 0,
+            //             tableBase: 0,
+            //             memory: new WebAssembly.Memory({
+            //                 initial: 128
+            //             }),
+            //             table: new WebAssembly.Table({
+            //                 initial: 0,
+            //                 element: 'anyfunc'
+            //             }),
+            //             DYNAMICTOP_PTR : 0,
+            //             tempDoublePtr : 0,
+            //             STACKTOP: 0,
+            //             STACK_MAX: 0,
+            //             ABORT : 0,
+            //             abortStackOverflow : function(){},
+            //             _malloc : Heap.malloc.bind( Heap ),
+            //             _printf : console.log
+            //         },
+            //         global: {
+            //             NaN :0,
+            //             Infinity : 0
+            //         }
+            //     }
+
+            //     const wasmModule = new WebAssembly.Instance( module, imports );
+            //     Heap.__init( imports.env.memory );
+            //     __Native = wasmModule.exports;
+            // })
+            // .then( callback );
+
+            var imports = {
+                env: {
+                    memoryBase: 0,
+                    tableBase: 0,
+                    memory: new WebAssembly.Memory({
+                        initial: 256
+                    }),
+                    table: new WebAssembly.Table({
+                        initial: 0,
+                        element: 'anyfunc'
+                    }),
+                    DYNAMICTOP_PTR: 0,
+                    tempDoublePtr: 0,
+                    STACKTOP: 0,
+                    STACK_MAX: 0,
+                    ABORT: 0,
+                    abortStackOverflow: function abortStackOverflow() {},
+                    _malloc: heap.malloc.bind(heap),
+                    _printf: console.log
+                },
+                global: {
+                    NaN: 0,
+                    Infinity: 0
+                }
+            };
+
             fetch(path).then(function (response) {
                 return response.arrayBuffer();
-            }).then(function (buffer) {
-                return WebAssembly.compile(buffer);
-            }).then(function (module) {
-                var imports = {
-                    env: {
-                        memoryBase: 0,
-                        tableBase: 0,
-                        memory: new WebAssembly.Memory({
-                            initial: 512
-                        }),
-                        table: new WebAssembly.Table({
-                            initial: 0,
-                            element: 'anyfunc'
-                        }),
-                        DYNAMICTOP_PTR: 0,
-                        tempDoublePtr: 0,
-                        STACKTOP: 0,
-                        STACK_MAX: 0,
-                        ABORT: 0,
-                        abortStackOverflow: function abortStackOverflow() {},
-                        _malloc: heap.malloc.bind(heap),
-                        _printf: console.log
-                    },
-                    global: {
-                        NaN: 0,
-                        Infinity: 0
-                    }
-                };
-
-                var wasmModule = new WebAssembly.Instance(module, imports);
+            }).then(function (bytes) {
+                return WebAssembly.instantiate(bytes, imports);
+            }).then(function (results) {
+                var wasmModule = results.instance;
                 heap.__init(imports.env.memory);
                 exports.__Native = wasmModule.exports;
             }).then(callback);
@@ -277,28 +313,131 @@ var Vec2 = function () {
 
         this.x = x;
         this.y = y;
+
+        // this.byteSize = 8;
     }
 
     createClass(Vec2, [{
-        key: "add",
+        key: 'add',
         value: function add(v) {
-            // load values into memory
-            console.log("heap pointer", exports.__Native.getHeapPtr());
-            console.log("this", this);
-            console.log("v", v);
-            var ptrV0 = exports.__Native.new_mathgasm_float2(this.x, this.y);
-            var ptrV1 = exports.__Native.new_mathgasm_float2(v.x, v.y);
-            var ptrV2 = exports.__Native.mathgasm_float2_add(ptrV0, ptrV1);
-            exports.__Native.free(ptrV0);
-            exports.__Native.free(ptrV1);
+            // load vectors into memory
+            mathgasm.Heap.HEAPF32[0] = this.x;
+            mathgasm.Heap.HEAPF32[1] = this.y;
+            mathgasm.Heap.HEAPF32[2] = v.x;
+            mathgasm.Heap.HEAPF32[3] = v.y;
 
-            var heap = exports.__Native.memory.buffer;
-            var dataHeap = new Uint8Array(heap, ptrV2, 2 * 4);
-            var data = new Float32Array(dataHeap.buffer, dataHeap.byteOffset, 2);
-            var result = new Vec2(data[0], data[1]);
-            exports.__Native.free(ptrV2);
-            // __Native.getHeapPtr()
-            return result;
+            // execute
+            mathgasm.__Native._mathgasm_float2_add(0, 8, 16);
+
+            // copy result
+            return new Vec2(mathgasm.Heap.HEAPF32[4], mathgasm.Heap.HEAPF32[5]);
+        }
+    }, {
+        key: 'sub',
+        value: function sub(v) {
+            // load vectors into memory
+            mathgasm.Heap.HEAPF32[0] = this.x;
+            mathgasm.Heap.HEAPF32[1] = this.y;
+            mathgasm.Heap.HEAPF32[2] = -v.x;
+            mathgasm.Heap.HEAPF32[3] = -v.y;
+
+            // execute
+            mathgasm.__Native._mathgasm_float2_add(0, 8, 16);
+
+            // copy result
+            return new Vec2(mathgasm.Heap.HEAPF32[4], mathgasm.Heap.HEAPF32[5]);
+        }
+    }, {
+        key: 'mul',
+        value: function mul() {
+            var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+            var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
+
+            // load vectors into memory
+            mathgasm.Heap.HEAPF32[0] = this.x;
+            mathgasm.Heap.HEAPF32[1] = this.y;
+            mathgasm.Heap.HEAPF32[2] = x;
+            mathgasm.Heap.HEAPF32[3] = y;
+
+            // execute
+            mathgasm.__Native._mathgasm_float2_mul(0, 8, 16);
+
+            // copy result
+            return new Vec2(mathgasm.Heap.HEAPF32[4], mathgasm.Heap.HEAPF32[5]);
+        }
+    }, {
+        key: 'mad',
+        value: function mad(v, u) {
+            // load vectors into memory
+            mathgasm.Heap.HEAPF32[0] = this.x;
+            mathgasm.Heap.HEAPF32[1] = this.y;
+            mathgasm.Heap.HEAPF32[2] = v.x;
+            mathgasm.Heap.HEAPF32[3] = v.y;
+            mathgasm.Heap.HEAPF32[4] = u.x;
+            mathgasm.Heap.HEAPF32[5] = u.y;
+
+            // execute
+            mathgasm.__Native._mathgasm_float2_mad(0, 8, 16, 24);
+
+            // copy result
+            return new Vec2(mathgasm.Heap.HEAPF32[6], mathgasm.Heap.HEAPF32[7]);
+        }
+    }, {
+        key: 'length',
+        value: function length() {
+            // load vectors into memory
+            mathgasm.Heap.HEAPF32[0] = this.x;
+            mathgasm.Heap.HEAPF32[1] = this.y;
+
+            // execute
+            mathgasm.__Native._mathgasm_float2_length(0, 8);
+
+            // copy result
+            return mathgasm.Heap.HEAPF32[2];
+        }
+    }, {
+        key: 'dot',
+        value: function dot(v) {
+            // load vectors into memory
+            mathgasm.Heap.HEAPF32[0] = this.x;
+            mathgasm.Heap.HEAPF32[1] = this.y;
+            mathgasm.Heap.HEAPF32[2] = v.x;
+            mathgasm.Heap.HEAPF32[3] = v.y;
+
+            // execute
+            mathgasm.__Native._mathgasm_float2_dot(0, 8, 16);
+
+            // copy result
+            return mathgasm.Heap.HEAPF32[4];
+        }
+    }, {
+        key: 'normalized',
+        value: function normalized() {
+            // load vectors into memory
+            mathgasm.Heap.HEAPF32[0] = this.x;
+            mathgasm.Heap.HEAPF32[1] = this.y;
+
+            // execute
+            mathgasm.__Native._mathgasm_float2_normalize(0, 8);
+
+            // copy result
+            return new Vec2(mathgasm.Heap.HEAPF32[2], mathgasm.Heap.HEAPF32[3]);
+        }
+    }, {
+        key: 'lerped',
+        value: function lerped(v, dt) {
+            // load vectors into memory
+            mathgasm.Heap.HEAPF32[0] = this.x;
+            mathgasm.Heap.HEAPF32[1] = this.y;
+            mathgasm.Heap.HEAPF32[2] = v.x;
+            mathgasm.Heap.HEAPF32[3] = v.y;
+            mathgasm.Heap.HEAPF32[4] = dt;
+
+            // execute
+            mathgasm.__Native._mathgasm_float2_lerp(0, 8, 16, 20);
+
+            // copy result
+            return new Vec2(mathgasm.Heap.HEAPF32[5], mathgasm.Heap.HEAPF32[6]);
         }
     }]);
     return Vec2;
