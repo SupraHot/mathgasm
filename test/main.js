@@ -24,19 +24,25 @@
 var __runTests = function( mod ) {
     console.log("Heap ptr", mod.getHeapPtr());
 
-    var Vptr = mod.new_mathmgasm_vec3(4, 5, 6);
-    console.log("Heap ptr", mod.getHeapPtr());
+    var Vptr = mod.new_mathgasm_float3( 99.93, 55.3, 77.0 );
+    console.log( "Heap ptr", mod.getHeapPtr() );
 
     var heap = mod.memory.buffer;
-    var dataHeap = new Uint8Array(heap, Vptr, 3 * 4);
-    var data = new Float32Array(dataHeap.buffer, dataHeap.byteOffset, 3);
+    var dataHeap = new Uint8Array( heap, Vptr, 3 * 4 );
+    var data = new Float32Array( dataHeap.buffer, dataHeap.byteOffset, 3 );
 
-    console.log("Heap ptr", mod.getHeapPtr());
+    console.log( "Heap ptr", mod.getHeapPtr() );
 
-    console.log("data", data);
-    mod.destroy_mathmgasm_vec3( Vptr );
+    console.log( "data", data );
+    mod.destroy_mathgasm_float3( Vptr );
     //mathgasm.free( Vptr );
-    console.log("data", data);
+    console.log( "data", data );
 
-    console.log("Heap ptr", mod.getHeapPtr());
+    console.log( "Heap ptr", mod.getHeapPtr() );
+
+
+
+    // Mat4 test
+
+
 };

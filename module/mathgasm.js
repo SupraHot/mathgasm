@@ -1,5 +1,5 @@
 // COMPILE TIME DEFINITIONS (Generated via gulp) 
-var __DATE__ = "Fri Mar 24 2017 12:55:42 GMT+0100 (CET)"; 
+var __DATE__ = "Fri Mar 24 2017 13:44:02 GMT+0100 (CET)"; 
 // END COMPILE TIME DEFINITIONS 
  
 console.log('Compiled at', __DATE__);
@@ -82,15 +82,28 @@ var Vec2 = function () {
 
         this.x = x;
         this.y = y;
-        console.log("__Native", exports.__Native);
     }
 
     createClass(Vec2, [{
         key: "add",
         value: function add(v) {
+            // load values into memory
+            console.log("heap pointer", exports.__Native.getHeapPtr());
+            console.log("this", this);
+            console.log("v", v);
+            var ptrV0 = exports.__Native.new_mathgasm_float2(this.x, this.y);
+            var ptrV1 = exports.__Native.new_mathgasm_float2(v.x, v.y);
+            var ptrV2 = exports.__Native.mathgasm_float2_add(ptrV0, ptrV1);
+            exports.__Native.free(ptrV0);
+            exports.__Native.free(ptrV1);
 
-            // Wrap mathgasm
-
+            var heap = exports.__Native.memory.buffer;
+            var dataHeap = new Uint8Array(heap, ptrV2, 2 * 4);
+            var data = new Float32Array(dataHeap.buffer, dataHeap.byteOffset, 2);
+            var result = new Vec2(data[0], data[1]);
+            exports.__Native.free(ptrV2);
+            // __Native.getHeapPtr()
+            return result;
         }
     }]);
     return Vec2;

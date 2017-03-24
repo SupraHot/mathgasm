@@ -1,9 +1,29 @@
-class mathgasm_vec3 {
-   x: float32;
-   y: float32;
-   z: float32;
+// - - - - - - structs - - - - - - -
+
+// - - - - - - float - - - - - -
+export function mathgasm_mad( a : float32, b : float32, c : float32 ) : float32 {
+    return a * b + c;
+}
+
+// - - - - - - float2 - - - - - -
+class mathgasm_float2 {
+    x : float32;
+    y : float32;
+
+    constructor( x : float32, y : float32 ) : mathgasm_float2 {
+        this.x = x;
+        this.y = y;
+        return this;
+    }
+}
+
+// - - - - - - float3 - - - - - -
+class mathgasm_float3 {
+   x : float32;
+   y : float32;
+   z : float32;
    
-   constructor( x : float32, y : float32, z : float32 ) : mathgasm_vec3 {
+   constructor( x : float32, y : float32, z : float32 ) : mathgasm_float3 {
        this.x = x;
        this.y = y;
        this.z = z;
@@ -11,10 +31,102 @@ class mathgasm_vec3 {
    }
 }
 
-export function new_mathmgasm_vec3( x : float32, y : float32, z : float32 ) : mathgasm_vec3 {
-    return new mathgasm_vec3(x, y, z);
+// - - - - - - float4 - - - - - -
+class mathgasm_float4 {
+   x : float32;
+   y : float32;
+   z : float32;
+   w : float32;
+   
+   constructor( x : float32, y : float32, z : float32, w : float32 ) : mathgasm_float4 {
+       this.x = x;
+       this.y = y;
+       this.z = z;
+       this.w = w;
+       return this;
+   }
 }
 
-export function destroy_mathmgasm_vec3( a : mathgasm_vec3 ) : void {
+// - - - - - - float4x4 - - - - - -
+class mathgasm_float4x4 {
+    m00 : float32; m10 : float32; m20 : float32; m30 : float32;
+    m01 : float32; m11 : float32; m21 : float32; m31 : float32;
+    m02 : float32; m12 : float32; m22 : float32; m32 : float32;
+    m03 : float32; m13 : float32; m23 : float32; m33 : float32;
+
+    constructor( m00 : float32, m01 : float32, m02 : float32, m03 : float32, 
+                 m10 : float32, m11 : float32, m12 : float32, m13 : float32, 
+                 m20 : float32, m21 : float32, m22 : float32, m23 : float32, 
+                 m30 : float32, m31 : float32, m32 : float32, m33 : float32 ) 
+    : mathgasm_float4x4 
+    {
+        this.m00 = m00; this.m10 = m10; this.m20 = m20; this.m30 = m30;
+        this.m01 = m01; this.m11 = m11; this.m21 = m21; this.m31 = m31;
+        this.m02 = m02; this.m12 = m12; this.m22 = m22; this.m32 = m32;
+        this.m03 = m03; this.m13 = m13; this.m23 = m23; this.m33 = m33;
+        return this;
+    }
+}
+
+// - - - - - - functions - - - - - - -
+
+// - - - - - - constructors / destructor - - - - - - -
+export function new_mathgasm_float2( x : float32, y : float32 ) : mathgasm_float2 {
+    return new mathgasm_float2( x, y );
+}
+
+export function destroy_mathgasm_float2( a : mathgasm_float2 ) : void {
     delete a;
+}
+
+export function new_mathgasm_float3( x : float32, y : float32, z : float32 ) : mathgasm_float3 {
+    return new mathgasm_float3( x, y, z );
+}
+
+export function destroy_mathgasm_float3( a : mathgasm_float3 ) : void {
+    delete a;
+}
+
+export function new_mathgasm_float4( x : float32, y : float32, z : float32, w : float32 ) : mathgasm_float4 {
+    return new mathgasm_float4( x, y, z, w );
+}
+
+export function destroy_mathgasm_float4( a : mathgasm_float4 ) : void {
+    delete a;
+}
+
+export function new_mathgasm_float4x4( m00 : float32, m01 : float32, m02 : float32, m03 : float32, 
+                                        m10 : float32, m11 : float32, m12 : float32, m13 : float32, 
+                                        m20 : float32, m21 : float32, m22 : float32, m23 : float32, 
+                                        m30 : float32, m31 : float32, m32 : float32, m33 : float32
+ ) : mathgasm_float4x4 {
+    return new mathgasm_float4x4( m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33 );
+}
+
+export function destroy_mathgasm_float4x4( a : mathgasm_float4x4 ) : void {
+    delete a;
+}
+
+// - - - - - - - - math - - - - - - -
+export function mathgasm_float2_add( v0 : mathgasm_float2, v1 : mathgasm_float2 ) : mathgasm_float2 {
+    return new mathgasm_float2( v0.x + v1.x, v0.y + v1.y );
+}
+
+export function mathgasm_float4x4_mul_mat( a : mathgasm_float4x4, b : mathgasm_float4x4, dest : mathgasm_float4x4 ) : void {
+    dest.m00 = a.m00 * b.m00 + a.m10 * b.m01 + a.m20 * b.m02 + a.m30 * b.m03;
+    dest.m01 = a.m01 * b.m00 + a.m11 * b.m01 + a.m21 * b.m02 + a.m31 * b.m03;
+    dest.m02 = a.m02 * b.m00 + a.m12 * b.m01 + a.m22 * b.m02 + a.m32 * b.m03;
+    dest.m03 = a.m03 * b.m00 + a.m13 * b.m01 + a.m23 * b.m02 + a.m33 * b.m03;
+    dest.m10 = a.m00 * b.m10 + a.m10 * b.m11 + a.m20 * b.m12 + a.m30 * b.m13;
+    dest.m11 = a.m01 * b.m10 + a.m11 * b.m11 + a.m21 * b.m12 + a.m31 * b.m13;
+    dest.m12 = a.m02 * b.m10 + a.m12 * b.m11 + a.m22 * b.m12 + a.m32 * b.m13;
+    dest.m13 = a.m03 * b.m10 + a.m13 * b.m11 + a.m23 * b.m12 + a.m33 * b.m13;
+    dest.m20 = a.m00 * b.m20 + a.m10 * b.m21 + a.m20 * b.m22 + a.m30 * b.m23;
+    dest.m21 = a.m01 * b.m20 + a.m11 * b.m21 + a.m21 * b.m22 + a.m31 * b.m23;
+    dest.m22 = a.m02 * b.m20 + a.m12 * b.m21 + a.m22 * b.m22 + a.m32 * b.m23;
+    dest.m23 = a.m03 * b.m20 + a.m13 * b.m21 + a.m23 * b.m22 + a.m33 * b.m23;
+    dest.m30 = a.m00 * b.m30 + a.m10 * b.m31 + a.m20 * b.m32 + a.m30 * b.m33;
+    dest.m31 = a.m01 * b.m30 + a.m11 * b.m31 + a.m21 * b.m32 + a.m31 * b.m33;
+    dest.m32 = a.m02 * b.m30 + a.m12 * b.m31 + a.m22 * b.m32 + a.m32 * b.m33;
+    dest.m33 = a.m03 * b.m30 + a.m13 * b.m31 + a.m23 * b.m32 + a.m33 * b.m33;
 }
