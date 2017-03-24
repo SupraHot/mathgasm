@@ -21,28 +21,17 @@
 })();
 
 // Tests
-var __runTests = function( mod ) {
-    console.log("Heap ptr", mod.getHeapPtr());
+var __runTests = function( module ) {
+    
+    console.log( "module", module );
 
-    var Vptr = mod.new_mathgasm_float3( 99.93, 55.3, 77.0 );
-    console.log( "Heap ptr", mod.getHeapPtr() );
+};
 
-    var heap = mod.memory.buffer;
-    var dataHeap = new Uint8Array( heap, Vptr, 3 * 4 );
-    var data = new Float32Array( dataHeap.buffer, dataHeap.byteOffset, 3 );
-
-    console.log( "Heap ptr", mod.getHeapPtr() );
-
-    console.log( "data", data );
-    mod.destroy_mathgasm_float3( Vptr );
-    //mathgasm.free( Vptr );
-    console.log( "data", data );
-
-    console.log( "Heap ptr", mod.getHeapPtr() );
-
-
-
-    // Mat4 test
-
-
+gogogo = function() {
+    var ptr = mathgasm.__Native._ejaculate(1,2) - 1;
+    console.log( "ptr", ptr );
+    var heap = mathgasm.Heap.wasmMemoryBuffer;
+    var dataHeap = new Uint8Array( heap, ptr, 2 * 8 );
+    var data = new Int32Array( dataHeap.buffer, dataHeap.byteOffset, 2 );
+    console.log("data", data);
 };

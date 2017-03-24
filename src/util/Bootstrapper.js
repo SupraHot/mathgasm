@@ -1,3 +1,5 @@
+import { Heap } from './Heap.js'
+
 // Global native interface object. 
 // Can be accessed through mathgasm.__Native
 let __Native = {};
@@ -16,19 +18,32 @@ class Bootstrapper {
         .then( module => {
             const imports = {
                 env: {
-                memoryBase: 0,
-                tableBase: 0,
-                memory: new WebAssembly.Memory({
-                    initial: 256
-                }),
-                table: new WebAssembly.Table({
-                    initial: 0,
-                    element: 'anyfunc'
-                })
+                    memoryBase: 0,
+                    tableBase: 0,
+                    memory: new WebAssembly.Memory({
+                        initial: 256
+                    }),
+                    table: new WebAssembly.Table({
+                        initial: 0,
+                        element: 'anyfunc'
+                    }),
+                    DYNAMICTOP_PTR : 0,
+                    tempDoublePtr : 0,
+                    STACKTOP: 8,
+                    STACK_MAX: 8,
+                    ABORT : 0,
+                    abortStackOverflow : function(){},
+                    _malloc : Heap.malloc.bind( Heap ),
+                    _printf : function( log ) { console.log( "log", log ); }
+                },
+                global: {
+                    NaN :0,
+                    Infinity : 0
                 }
             }
 
             const wasmModule = new WebAssembly.Instance( module, imports );
+            Heap.__init( imports.env.memory );
             __Native = wasmModule.exports;
         })
         .then( callback );
