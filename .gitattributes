@@ -1,0 +1,8 @@
+build/* linguist-vendored
+docs/* linguist-vendored
+doc_scripts/* linguist-vendored
+external/* linguist-vendored
+build/* linguist-vendored
+module/* linguist-vendored
+test/* linguist-vendored
+Gulpfiles.js linguist-vendored
