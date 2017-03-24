@@ -10,11 +10,9 @@ extern "C" {
         return i * i;
     }
 
-    unsigned int* ejaculate( int a, int* b ) {
-        unsigned int* s = (unsigned int*)malloc( 8 );
-        s[0] = 1;
-        s[1] = 2;
-        return s;
+    void ejaculate( int a, float* b ) {
+        b[0] = 77.7f;
+        b[1] = 333.03f;
     }
 }
 

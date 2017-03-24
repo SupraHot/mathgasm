@@ -1,5 +1,5 @@
 // COMPILE TIME DEFINITIONS (Generated via gulp) 
-var __DATE__ = "Fri Mar 24 2017 14:23:50 GMT+0100 (CET)"; 
+var __DATE__ = "Fri Mar 24 2017 15:20:18 GMT+0100 (CET)"; 
 // END COMPILE TIME DEFINITIONS 
  
 console.log('Compiled at', __DATE__);
@@ -239,7 +239,7 @@ var Bootstrapper = function () {
                         memoryBase: 0,
                         tableBase: 0,
                         memory: new WebAssembly.Memory({
-                            initial: 256
+                            initial: 512
                         }),
                         table: new WebAssembly.Table({
                             initial: 0,
@@ -247,14 +247,12 @@ var Bootstrapper = function () {
                         }),
                         DYNAMICTOP_PTR: 0,
                         tempDoublePtr: 0,
-                        STACKTOP: 8,
-                        STACK_MAX: 8,
+                        STACKTOP: 0,
+                        STACK_MAX: 0,
                         ABORT: 0,
                         abortStackOverflow: function abortStackOverflow() {},
                         _malloc: heap.malloc.bind(heap),
-                        _printf: function _printf(log) {
-                            console.log("log", log);
-                        }
+                        _printf: console.log
                     },
                     global: {
                         NaN: 0,

@@ -27,11 +27,17 @@ var __runTests = function( module ) {
 
 };
 
-gogogo = function() {
-    var ptr = mathgasm.__Native._ejaculate(1,2) - 1;
-    console.log( "ptr", ptr );
-    var heap = mathgasm.Heap.wasmMemoryBuffer;
-    var dataHeap = new Uint8Array( heap, ptr, 2 * 8 );
-    var data = new Int32Array( dataHeap.buffer, dataHeap.byteOffset, 2 );
-    console.log("data", data);
+gogogo = function() {   
+    var byteOffset = 0;
+    var elements = 2;
+    var bytesToWrite = 4 * elements;
+    var dataHeap = new Float32Array(mathgasm.Heap.HEAPU8.buffer, byteOffset, bytesToWrite);
+
+    mathgasm.__Native._ejaculate( 1, byteOffset ); // byte offset into the wasm memory
+    
+    // var data = new Float32Array( dataHeap.buffer, dataHeap.byteOffset, elements );
+    //console.log( "data", data );
+
+    console.log( "heap[0]", dataHeap[0] );
+    console.log( "heap[0]", dataHeap[1] );
 };
