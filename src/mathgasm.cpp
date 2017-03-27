@@ -34,7 +34,7 @@ extern "C" {
     }
 
     void mathgasm_float2_length( float* a, float* dest ) {
-        dest[ 0 ] = sqrt( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] );
+        dest[ 0 ] = sqrtf( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] );
     }
 
     void mathgasm_float2_dot( float* a, float* b, float* dest ) {
@@ -42,7 +42,7 @@ extern "C" {
     }
 
     void mathgasm_float2_normalize( float* a, float* dest ) {
-        const float inverseLength = 1.0f / sqrt( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] );
+        const float inverseLength = 1.0f / sqrtf( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] );
         dest[ 0 ] = a[ 0 ] * inverseLength;
         dest[ 1 ] = a[ 1 ] * inverseLength;
     }
@@ -73,7 +73,7 @@ extern "C" {
     }
 
     void mathgasm_float3_length( float* a, float* dest ) {
-        dest[ 0 ] = sqrt( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] + a[ 2 ] * a[ 2 ] );
+        dest[ 0 ] = sqrtf( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] + a[ 2 ] * a[ 2 ] );
     }
 
     void mathgasm_float3_dot( float* a, float* b, float* dest ) {
@@ -81,7 +81,7 @@ extern "C" {
     }
 
     void mathgasm_float3_normalize( float* a, float* dest ) {
-        const float inverseLength = 1.0f / sqrt( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] + a[ 2 ] * a[ 2 ] );
+        const float inverseLength = 1.0f / sqrtf( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] + a[ 2 ] * a[ 2 ] );
         dest[ 0 ] = a[ 0 ] * inverseLength;
         dest[ 1 ] = a[ 1 ] * inverseLength;
         dest[ 2 ] = a[ 2 ] * inverseLength;
@@ -107,7 +107,42 @@ extern "C" {
      }
 
      // - - - - - - - - - - float4 - - - - - - - - - - - 
+     void mathgasm_float4_add( float* a, float* b, float* dest ) {
+        dest[ 0 ] = a[ 0 ] + b[ 0 ];
+        dest[ 1 ] = a[ 1 ] + b[ 1 ];
+        dest[ 2 ] = a[ 2 ] + b[ 2 ];
+        dest[ 3 ] = a[ 3 ] + b[ 3 ];
+     }
 
+     void mathgasm_float4_mul( float* a, float* b, float* dest ) {
+        dest[ 0 ] = a[ 0 ] * b[ 0 ];
+        dest[ 1 ] = a[ 1 ] * b[ 1 ];
+        dest[ 2 ] = a[ 2 ] * b[ 2 ];
+        dest[ 3 ] = a[ 3 ] * b[ 3 ];
+     }
+
+     void mathgasm_float4_length( float* a, float* dest ) {
+        dest[ 0 ] = sqrtf( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] + a[ 2 ] * a[ 2 ] + a[ 2 ] * a[ 2 ] + a[ 3 ] * a[ 3 ] );
+     }
+
+     void mathgasm_float4_normalize( float* a, float* dest ) {
+        const float inverseLength = 1.0f / sqrtf( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] + a[ 2 ] * a[ 2 ] + a[ 2 ] * a[ 2 ] + a[ 3 ] * a[ 3 ] );
+        dest[ 0 ] = a[ 0 ] * inverseLength;
+        dest[ 1 ] = a[ 1 ] * inverseLength;
+        dest[ 2 ] = a[ 2 ] * inverseLength;
+        dest[ 3 ] = a[ 3 ] * inverseLength;
+     }
+
+     void mathgasm_float4_dot( float* a, float* b, float* dest ) {
+        dest[ 0 ] = a[ 0 ] * b[ 0 ] + a[ 1 ] * b[ 1 ] + a[ 2 ] * b[ 2 ] + a[ 3 ] * b[ 3 ];
+     }
+
+     void mathgasm_float4_lerp( float* a, float* b, float* dt, float* dest ) {
+        dest[ 0 ] = a[ 0 ] + ( b[ 0 ] - a[ 0 ] ) * dt[ 0 ];
+        dest[ 1 ] = a[ 1 ] + ( b[ 1 ] - a[ 1 ] ) * dt[ 0 ];
+        dest[ 2 ] = a[ 2 ] + ( b[ 2 ] - a[ 2 ] ) * dt[ 0 ];
+        dest[ 3 ] = a[ 3 ] + ( b[ 3 ] - a[ 3 ] ) * dt[ 0 ];
+     }
 
      // - - - - - - - - - - float4x4 - - - - - - - - - - - 
      void mathgasm_float4x4_mul( float* a, float* b, float* dest ) {
