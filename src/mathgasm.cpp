@@ -145,6 +145,245 @@ extern "C" {
      }
 
      // - - - - - - - - - - float4x4 - - - - - - - - - - - 
+     void mathgasm_float4x4_from_quaternion( float* q, float* dest ) {
+        float forward[ 3 ] = { 
+            2.0f * (q[ 0 ] * q[ 2 ] - q[ 3 ] * q[ 1 ]),
+            2.0f * (q[ 1 ] * q[ 2 ] + q[ 3 ] * q[ 0 ]),
+            1.0f - 2.0f * (q[ 0 ] * q[ 0 ] + q[ 1 ] * q[ 1 ]) 
+        };
+        
+        float up[ 3 ]      = { 
+            2.0f * (q[ 0 ] * q[ 1 ] + q[ 3 ] * q[ 2 ]),         
+            1.0f - 2.0f * (q[ 0 ] * q[ 0 ] + q[ 2 ] * q[ 2 ]),  
+            2.0f * (q[ 1 ] * q[ 2 ] - q[ 3 ] * q[ 0 ]) 
+        };
+        
+        float right[ 3 ]   = { 
+            1.0f - 2.0f * (q[ 1 ] * q[ 1 ] + q[ 2 ] * q[ 2 ]),  
+            2.0f * (q[ 0 ] * q[ 1 ] - q[ 3 ] * q[ 2 ]),         
+            2.0f * (q[ 0 ] * q[ 2 ] + q[ 3 ] * q[ 1 ]) 
+        };
+
+        dest[ 0 ] = right[ 0 ];    dest[ 4 ] = right[ 1 ];    dest[ 8 ]  = right[ 2 ];    dest[ 12 ] = 0.0f;
+        dest[ 1 ] = up[ 0 ];       dest[ 5 ] = up[ 1 ];       dest[ 9 ]  = up[ 2 ];       dest[ 13 ] = 0.0f;
+        dest[ 2 ] = forward[ 0 ];  dest[ 6 ] = forward[ 1 ];  dest[ 10 ] = forward[ 2 ];  dest[ 14 ] = 0.0f;
+        dest[ 3 ] = 0.0f;          dest[ 7 ] = 0.0f;          dest[ 11 ] = 0.0f;          dest[ 15 ] = 1.0f;
+     }
+
+     void mathgasm_float4x4_mul_vec( float* m, float* v, float* dest ) {
+        dest[ 0 ] = m[ 0 ] * v[ 0 ] + m[ 4 ] * v[ 1 ] + m[ 8 ]  * v[ 2 ] + m[ 12 ];
+        dest[ 1 ] = m[ 1 ] * v[ 0 ] + m[ 5 ] * v[ 1 ] + m[ 9 ]  * v[ 2 ] + m[ 13 ];
+        dest[ 2 ] = m[ 2 ] * v[ 0 ] + m[ 6 ] * v[ 1 ] + m[ 10 ] * v[ 2 ] + m[ 14 ];
+     }
+
+     void mathgasm_float4x4_mul_scalar( float* m, float* s, float* dest ) {
+        dest[ 0 ]  = m[ 0 ]  * s[ 0 ];
+        dest[ 1 ]  = m[ 1 ]  * s[ 0 ];
+        dest[ 2 ]  = m[ 2 ]  * s[ 0 ];
+        dest[ 3 ]  = m[ 3 ]  * s[ 0 ];
+        dest[ 4 ]  = m[ 4 ]  * s[ 0 ];
+        dest[ 5 ]  = m[ 5 ]  * s[ 0 ];
+        dest[ 6 ]  = m[ 6 ]  * s[ 0 ];
+        dest[ 7 ]  = m[ 7 ]  * s[ 0 ];
+        dest[ 8 ]  = m[ 8 ]  * s[ 0 ];
+        dest[ 9 ]  = m[ 9 ]  * s[ 0 ];
+        dest[ 10 ] = m[ 10 ] * s[ 0 ];
+        dest[ 11 ] = m[ 11 ] * s[ 0 ];
+        dest[ 12 ] = m[ 12 ] * s[ 0 ];
+        dest[ 13 ] = m[ 13 ] * s[ 0 ];
+        dest[ 14 ] = m[ 14 ] * s[ 0 ];
+        dest[ 15 ] = m[ 15 ] * s[ 0 ];
+     }
+
+     void mathgasm_float4x4_inverse_tr( float* m, float* dest ) {
+        dest[ 0 ] = m[ 0 ];
+        dest[ 1 ] = m[ 4 ];
+        dest[ 2 ] = m[ 8 ];
+        dest[ 3 ] = 1.0f;
+  
+        dest[ 4 ] = m[ 1 ];
+        dest[ 5 ] = m[ 5 ];
+        dest[ 6 ] = m[ 9 ];
+        dest[ 7 ] = 1.0f;
+
+        dest[ 8 ]  = m[ 2 ];
+        dest[ 9 ]  = m[ 6 ];
+        dest[ 10 ] = m[ 10 ];
+        dest[ 11 ] = 1.0f;
+
+        dest[ 12 ] = 0.0f;
+        dest[ 13 ] = 0.0f;
+        dest[ 14 ] = 0.0f;
+        dest[ 15 ] = 1.0f; 
+
+        float translation[ 3 ] = { 
+            dest[ 0 ] * -m[ 12 ] + dest[ 4 ] * -m[ 13 ] + dest[ 8 ]  * -m[ 14 ] + dest[ 12 ], 
+            dest[ 1 ] * -m[ 12 ] + dest[ 5 ] * -m[ 13 ] + dest[ 9 ]  * -m[ 14 ] + dest[ 13 ], 
+            dest[ 2 ] * -m[ 12 ] + dest[ 6 ] * -m[ 13 ] + dest[ 10 ] * -m[ 14 ] + dest[ 14 ]
+        };
+        
+        dest[ 12 ] = translation[ 0 ];
+        dest[ 13 ] = translation[ 1 ];
+        dest[ 14 ] = translation[ 2 ];
+     }
+
+     void mathgasm_float4x4_inverse( float* m, float* dest ) {
+        let result = new Mat4(), det = 0;
+        
+        dest[ 0 ]  = this.m11 * this.m22 * this.m33 -
+                         this.m11 * this.m23 * this.m32 -
+                         this.m21 * this.m12 * this.m33 +
+                         this.m21 * this.m13 * this.m32 +
+                         this.m31 * this.m12 * this.m23 -
+                         this.m31 * this.m13 * this.m22;
+
+        dest[ 4 ]  = -this.m10 * this.m22 * this.m33 +
+                        this.m10 * this.m23 * this.m32 +
+                        this.m20 * this.m12 * this.m33 -
+                        this.m20 * this.m13 * this.m32 -
+                        this.m30 * this.m12 * this.m23 +
+                        this.m30 * this.m13 * this.m22;
+
+        dest[ 8 ]  = this.m10 * this.m21 * this.m33 -
+                         this.m10 * this.m23 * this.m31 -
+                         this.m20 * this.m11 * this.m33 +
+                         this.m20 * this.m13 * this.m31 +
+                         this.m30 * this.m11 * this.m23 -
+                         this.m30 * this.m13 * this.m21;
+
+        dest[ 12 ]  = -this.m10 * this.m21 * this.m32 +
+                        this.m10 * this.m22 * this.m31 +
+                        this.m20 * this.m11 * this.m32 -
+                        this.m20 * this.m12 * this.m31 -
+                        this.m30 * this.m11 * this.m22 +
+                        this.m30 * this.m12 * this.m21;
+
+        dest[ 1 ]  = -this.m01 * this.m22 * this.m33 +
+                        this.m01 * this.m23 * this.m32 +
+                        this.m21 * this.m02 * this.m33 -
+                        this.m21 * this.m03 * this.m32 -
+                        this.m31 * this.m02 * this.m23 +
+                        this.m31 * this.m03 * this.m22;
+
+        dest[ 5 ]  = this.m00 * this.m22 * this.m33 -
+                         this.m00 * this.m23 * this.m32 -
+                         this.m20 * this.m02 * this.m33 +
+                         this.m20 * this.m03 * this.m32 +
+                         this.m30 * this.m02 * this.m23 -
+                         this.m30 * this.m03 * this.m22;
+
+        dest[ 9 ]  = -this.m00 * this.m21 * this.m33 +
+                            this.m00 * this.m23 * this.m31 +
+                            this.m20 * this.m01 * this.m33 -
+                            this.m20 * this.m03 * this.m31 -
+                            this.m30 * this.m01 * this.m23 +
+                            this.m30 * this.m03 * this.m21;
+                            
+        dest[ 13 ]  = this.m00 * this.m21 * this.m32 -
+                            this.m00 * this.m22 * this.m31 -
+                            this.m20 * this.m01 * this.m32 +
+                            this.m20 * this.m02 * this.m31 +
+                            this.m30 * this.m01 * this.m22 -
+                            this.m30 * this.m02 * this.m21;
+
+        dest[ 2 ]  = this.m01 * this.m12 * this.m33 -
+                            this.m01 * this.m13 * this.m32 -
+                            this.m11 * this.m02 * this.m33 +
+                            this.m11 * this.m03 * this.m32 +
+                            this.m31 * this.m02 * this.m13 -
+                            this.m31 * this.m03 * this.m12;
+
+        dest[ 6 ]  = -this.m00 * this.m12 * this.m33 +
+                            this.m00 * this.m13 * this.m32 +
+                            this.m10 * this.m02 * this.m33 -
+                            this.m10 * this.m03 * this.m32 -
+                            this.m30 * this.m02 * this.m13 +
+                            this.m30 * this.m03 * this.m12;
+
+        dest[ 10 ]  = this.m00 * this.m11 * this.m33 -
+                            this.m00 * this.m13 * this.m31 -
+                            this.m10 * this.m01 * this.m33 +
+                            this.m10 * this.m03 * this.m31 +
+                            this.m30 * this.m01 * this.m13 -
+                            this.m30 * this.m03 * this.m11;
+
+        dest[ 14 ]  = -this.m00 * this.m11 * this.m32 +
+                            this.m00 * this.m12 * this.m31 +
+                            this.m10 * this.m01 * this.m32 -
+                            this.m10 * this.m02 * this.m31 -
+                            this.m30 * this.m01 * this.m12 +
+                            this.m30 * this.m02 * this.m11;
+
+        dest[ 3 ]  = -this.m01 * this.m12 * this.m23 +
+                            this.m01 * this.m13 * this.m22 +
+                            this.m11 * this.m02 * this.m23 -
+                            this.m11 * this.m03 * this.m22 -
+                            this.m21 * this.m02 * this.m13 +
+                            this.m21 * this.m03 * this.m12;
+
+        dest[ 7 ]  = this.m00 * this.m12 * this.m23 -
+                            this.m00 * this.m13 * this.m22 -
+                            this.m10 * this.m02 * this.m23 +
+                            this.m10 * this.m03 * this.m22 +
+                            this.m20 * this.m02 * this.m13 -
+                            this.m20 * this.m03 * this.m12;
+
+        dest[ 11 ]  = -this.m00 * this.m11 * this.m23 +
+                            this.m00 * this.m13 * this.m21 +
+                            this.m10 * this.m01 * this.m23 -
+                            this.m10 * this.m03 * this.m21 -
+                            this.m20 * this.m01 * this.m13 +
+                            this.m20 * this.m03 * this.m11;
+
+        dest[ 15 ]  = this.m00 * this.m11 * this.m22 -
+                            this.m00 * this.m12 * this.m21 -
+                            this.m10 * this.m01 * this.m22 +
+                            this.m10 * this.m02 * this.m21 +
+                            this.m20 * this.m01 * this.m12 -
+                            this.m20 * this.m02 * this.m11;
+
+        det = this.m00 * dest[ 0 ]  + this.m01 * dest[ 4 ]  + this.m02 * dest[ 8 ]  + this.m03 * dest[ 12 ] ;
+
+        if (det != 0)
+        {
+            det = 1.0 / det;
+
+            dest[ 0 ]  *= det;
+            dest[ 1 ]  *= det;
+            dest[ 2 ]  *= det;
+            dest[ 3 ]  *= det;
+
+            dest[ 4 ]  *= det;
+            dest[ 5 ]  *= det;
+            dest[ 6 ]  *= det;
+            dest[ 7 ]  *= det;
+
+            dest[ 8 ]  *= det;
+            dest[ 9 ]  *= det;
+            dest[ 10 ]  *= det;
+            dest[ 11 ]  *= det;
+
+            dest[ 12 ]  *= det;
+            dest[ 13 ]  *= det;
+            dest[ 14 ]  *= det;
+            dest[ 15 ]  *= det;
+        }
+        else
+        {
+            console.error("No determinant found");
+        }
+        
+        return result;
+     }
+
+     void mathgasm_float4x4_determinant( float* m, float* dest ) {
+
+     }
+
+     void mathgasm_float4x4_decompose( float* m, float* dest ) {
+
+     }
+
      void mathgasm_float4x4_mul( float* a, float* b, float* dest ) {
         dest[ 0 ]  = a[ 0 ] * b[ 0 ]  + a[ 4 ] * b[ 1 ]  + a[ 8 ]  * b[ 2 ]  + a[ 12 ] * b[ 3 ];
         dest[ 1 ]  = a[ 1 ] * b[ 0 ]  + a[ 5 ] * b[ 1 ]  + a[ 9 ]  * b[ 2 ]  + a[ 13 ] * b[ 3 ];
