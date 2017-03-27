@@ -1,5 +1,5 @@
 // COMPILE TIME DEFINITIONS (Generated via gulp) 
-var __DATE__ = "Fri Mar 24 2017 21:11:15 GMT+0100 (CET)"; 
+var __DATE__ = "Mon Mar 27 2017 10:21:43 GMT+0200 (CEST)"; 
 // END COMPILE TIME DEFINITIONS 
  
 console.log('Compiled at', __DATE__);
@@ -321,31 +321,31 @@ var Vec2 = function () {
         key: 'add',
         value: function add(v) {
             // load vectors into memory
-            mathgasm.Heap.HEAPF32[0] = this.x;
-            mathgasm.Heap.HEAPF32[1] = this.y;
-            mathgasm.Heap.HEAPF32[2] = v.x;
-            mathgasm.Heap.HEAPF32[3] = v.y;
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = v.x;
+            heap.HEAPF32[3] = v.y;
 
             // execute
-            mathgasm.__Native._mathgasm_float2_add(0, 8, 16);
+            exports.__Native._mathgasm_float2_add(0, 8, 16);
 
             // copy result
-            return new Vec2(mathgasm.Heap.HEAPF32[4], mathgasm.Heap.HEAPF32[5]);
+            return new Vec2(heap.HEAPF32[4], heap.HEAPF32[5]);
         }
     }, {
         key: 'sub',
         value: function sub(v) {
             // load vectors into memory
-            mathgasm.Heap.HEAPF32[0] = this.x;
-            mathgasm.Heap.HEAPF32[1] = this.y;
-            mathgasm.Heap.HEAPF32[2] = -v.x;
-            mathgasm.Heap.HEAPF32[3] = -v.y;
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = -v.x;
+            heap.HEAPF32[3] = -v.y;
 
             // execute
-            mathgasm.__Native._mathgasm_float2_add(0, 8, 16);
+            exports.__Native._mathgasm_float2_add(0, 8, 16);
 
             // copy result
-            return new Vec2(mathgasm.Heap.HEAPF32[4], mathgasm.Heap.HEAPF32[5]);
+            return new Vec2(heap.HEAPF32[4], heap.HEAPF32[5]);
         }
     }, {
         key: 'mul',
@@ -354,98 +354,295 @@ var Vec2 = function () {
             var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
 
             // load vectors into memory
-            mathgasm.Heap.HEAPF32[0] = this.x;
-            mathgasm.Heap.HEAPF32[1] = this.y;
-            mathgasm.Heap.HEAPF32[2] = x;
-            mathgasm.Heap.HEAPF32[3] = y;
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = x;
+            heap.HEAPF32[3] = y;
 
             // execute
-            mathgasm.__Native._mathgasm_float2_mul(0, 8, 16);
+            exports.__Native._mathgasm_float2_mul(0, 8, 16);
 
             // copy result
-            return new Vec2(mathgasm.Heap.HEAPF32[4], mathgasm.Heap.HEAPF32[5]);
+            return new Vec2(heap.HEAPF32[4], heap.HEAPF32[5]);
         }
     }, {
         key: 'mad',
         value: function mad(v, u) {
             // load vectors into memory
-            mathgasm.Heap.HEAPF32[0] = this.x;
-            mathgasm.Heap.HEAPF32[1] = this.y;
-            mathgasm.Heap.HEAPF32[2] = v.x;
-            mathgasm.Heap.HEAPF32[3] = v.y;
-            mathgasm.Heap.HEAPF32[4] = u.x;
-            mathgasm.Heap.HEAPF32[5] = u.y;
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = v.x;
+            heap.HEAPF32[3] = v.y;
+            heap.HEAPF32[4] = u.x;
+            heap.HEAPF32[5] = u.y;
 
             // execute
-            mathgasm.__Native._mathgasm_float2_mad(0, 8, 16, 24);
+            exports.__Native._mathgasm_float2_mad(0, 8, 16, 24);
 
             // copy result
-            return new Vec2(mathgasm.Heap.HEAPF32[6], mathgasm.Heap.HEAPF32[7]);
+            return new Vec2(heap.HEAPF32[6], heap.HEAPF32[7]);
         }
     }, {
         key: 'length',
         value: function length() {
             // load vectors into memory
-            mathgasm.Heap.HEAPF32[0] = this.x;
-            mathgasm.Heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
 
             // execute
-            mathgasm.__Native._mathgasm_float2_length(0, 8);
+            exports.__Native._mathgasm_float2_length(0, 8);
 
             // copy result
-            return mathgasm.Heap.HEAPF32[2];
+            return heap.HEAPF32[2];
         }
     }, {
         key: 'dot',
         value: function dot(v) {
             // load vectors into memory
-            mathgasm.Heap.HEAPF32[0] = this.x;
-            mathgasm.Heap.HEAPF32[1] = this.y;
-            mathgasm.Heap.HEAPF32[2] = v.x;
-            mathgasm.Heap.HEAPF32[3] = v.y;
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = v.x;
+            heap.HEAPF32[3] = v.y;
 
             // execute
-            mathgasm.__Native._mathgasm_float2_dot(0, 8, 16);
+            exports.__Native._mathgasm_float2_dot(0, 8, 16);
 
             // copy result
-            return mathgasm.Heap.HEAPF32[4];
+            return heap.HEAPF32[4];
         }
     }, {
         key: 'normalized',
         value: function normalized() {
             // load vectors into memory
-            mathgasm.Heap.HEAPF32[0] = this.x;
-            mathgasm.Heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
 
             // execute
-            mathgasm.__Native._mathgasm_float2_normalize(0, 8);
+            exports.__Native._mathgasm_float2_normalize(0, 8);
 
             // copy result
-            return new Vec2(mathgasm.Heap.HEAPF32[2], mathgasm.Heap.HEAPF32[3]);
+            return new Vec2(heap.HEAPF32[2], heap.HEAPF32[3]);
         }
     }, {
         key: 'lerped',
         value: function lerped(v, dt) {
             // load vectors into memory
-            mathgasm.Heap.HEAPF32[0] = this.x;
-            mathgasm.Heap.HEAPF32[1] = this.y;
-            mathgasm.Heap.HEAPF32[2] = v.x;
-            mathgasm.Heap.HEAPF32[3] = v.y;
-            mathgasm.Heap.HEAPF32[4] = dt;
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = v.x;
+            heap.HEAPF32[3] = v.y;
+            heap.HEAPF32[4] = dt;
 
             // execute
-            mathgasm.__Native._mathgasm_float2_lerp(0, 8, 16, 20);
+            exports.__Native._mathgasm_float2_lerp(0, 8, 16, 20);
 
             // copy result
-            return new Vec2(mathgasm.Heap.HEAPF32[5], mathgasm.Heap.HEAPF32[6]);
+            return new Vec2(heap.HEAPF32[5], heap.HEAPF32[6]);
         }
     }]);
     return Vec2;
 }();
 
+var Vec3 = function () {
+    function Vec3(x, y, z) {
+        classCallCheck(this, Vec3);
+
+        this.x = x;
+        this.y = y;
+        this.z = z;
+
+        // this.byteSize = 12;
+    }
+
+    createClass(Vec3, [{
+        key: 'add',
+        value: function add(v) {
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+
+            heap.HEAPF32[3] = v.x;
+            heap.HEAPF32[4] = v.y;
+            heap.HEAPF32[5] = v.z;
+
+            // execute
+            exports.__Native._mathgasm_float3_add(0, 12, 24);
+
+            // copy result
+            return new Vec3(heap.HEAPF32[6], heap.HEAPF32[7], heap.HEAPF32[8]);
+        }
+    }, {
+        key: 'sub',
+        value: function sub(v) {
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+
+            heap.HEAPF32[3] = -v.x;
+            heap.HEAPF32[4] = -v.y;
+            heap.HEAPF32[5] = -v.z;
+
+            // execute
+            exports.__Native._mathgasm_float3_add(0, 12, 24);
+
+            // copy result
+            return new Vec3(heap.HEAPF32[6], heap.HEAPF32[7], heap.HEAPF32[8]);
+        }
+    }, {
+        key: 'mul',
+        value: function mul() {
+            var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+            var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
+            var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : x;
+
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+
+            heap.HEAPF32[3] = x;
+            heap.HEAPF32[4] = y;
+            heap.HEAPF32[5] = z;
+
+            // execute
+            exports.__Native._mathgasm_float3_mul(0, 12, 24);
+
+            // copy result
+            return new Vec3(heap.HEAPF32[6], heap.HEAPF32[7], heap.HEAPF32[8]);
+        }
+    }, {
+        key: 'mad',
+        value: function mad(v, u) {
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+
+            heap.HEAPF32[3] = v.x;
+            heap.HEAPF32[4] = v.y;
+            heap.HEAPF32[5] = v.z;
+
+            heap.HEAPF32[6] = u.x;
+            heap.HEAPF32[7] = u.y;
+            heap.HEAPF32[8] = u.z;
+
+            // execute
+            exports.__Native._mathgasm_float3_mad(0, 12, 24, 36);
+
+            // copy result
+            return new Vec3(heap.HEAPF32[9], heap.HEAPF32[10], heap.HEAPF32[11]);
+        }
+    }, {
+        key: 'length',
+        value: function length() {
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+
+            // execute
+            exports.__Native._mathgasm_float3_length(0, 12);
+
+            // copy result
+            return heap.HEAPF32[3];
+        }
+    }, {
+        key: 'dot',
+        value: function dot(v) {
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[3] = v.x;
+            heap.HEAPF32[4] = v.y;
+            heap.HEAPF32[5] = v.z;
+
+            // execute
+            exports.__Native._mathgasm_float3_dot(0, 12, 24);
+
+            // copy result
+            return heap.HEAPF32[6];
+        }
+    }, {
+        key: 'normalized',
+        value: function normalized() {
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+
+            // execute
+            exports.__Native._mathgasm_float3_normalize(0, 12);
+
+            // copy result
+            return new Vec3(heap.HEAPF32[3], heap.HEAPF32[4], heap.HEAPF32[5]);
+        }
+    }, {
+        key: 'cross',
+        value: function cross(v) {
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+
+            heap.HEAPF32[3] = v.x;
+            heap.HEAPF32[4] = v.y;
+            heap.HEAPF32[5] = v.z;
+
+            // execute
+            exports.__Native._mathgasm_float3_cross(0, 12, 24);
+
+            // copy result
+            return new Vec3(heap.HEAPF32[6], heap.HEAPF32[7], heap.HEAPF32[8]);
+        }
+    }, {
+        key: 'reflect',
+        value: function reflect(n) {
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+
+            heap.HEAPF32[3] = n.x;
+            heap.HEAPF32[4] = n.y;
+            heap.HEAPF32[5] = n.z;
+
+            // execute
+            exports.__Native._mathgasm_float3_reflect(0, 12, 24);
+
+            // copy result
+            return new Vec3(heap.HEAPF32[6], heap.HEAPF32[7], heap.HEAPF32[8]);
+        }
+    }, {
+        key: 'lerped',
+        value: function lerped(v, dt) {
+            // load vectors into memory
+            heap.HEAPF32[0] = this.x;
+            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[2] = this.z;
+
+            heap.HEAPF32[3] = v.x;
+            heap.HEAPF32[4] = v.y;
+            heap.HEAPF32[5] = v.z;
+
+            heap.HEAPF32[6] = dt;
+
+            // execute
+            exports.__Native._mathgasm_float3_lerp(0, 12, 24, 28);
+
+            // copy result
+            return new Vec3(heap.HEAPF32[7], heap.HEAPF32[8], heap.HEAPF32[9]);
+        }
+    }]);
+    return Vec3;
+}();
+
 // Utils
 
 exports.Vec2 = Vec2;
+exports.Vec3 = Vec3;
 exports.Bootstrapper = bootstrapper;
 exports.Heap = heap;
 

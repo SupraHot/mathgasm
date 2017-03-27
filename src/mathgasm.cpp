@@ -73,7 +73,7 @@ extern "C" {
     }
 
     void mathgasm_float3_length( float* a, float* dest ) {
-        dest[ 0 ] = sqrt( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] + a[ 2 ] * a[ 3 ] );
+        dest[ 0 ] = sqrt( a[ 0 ] * a[ 0 ] + a[ 1 ] * a[ 1 ] + a[ 2 ] * a[ 2 ] );
     }
 
     void mathgasm_float3_dot( float* a, float* b, float* dest ) {
@@ -102,8 +102,8 @@ extern "C" {
 
     void mathgasm_float3_lerp( float* a, float* b, float* dt, float* dest ) {
         dest[ 0 ] = a[ 0 ] + ( b[ 0 ] - a[ 0 ] ) * dt[ 0 ];
-        dest[ 1 ] = a[ 1 ] + ( b[ 1 ] - a[ 1 ] ) * dt[ 1 ];
-        dest[ 2 ] = a[ 2 ] + ( b[ 2 ] - a[ 2 ] ) * dt[ 2 ];
+        dest[ 1 ] = a[ 1 ] + ( b[ 1 ] - a[ 1 ] ) * dt[ 0 ];
+        dest[ 2 ] = a[ 2 ] + ( b[ 2 ] - a[ 2 ] ) * dt[ 0 ];
      }
 
      // - - - - - - - - - - float4 - - - - - - - - - - - 
