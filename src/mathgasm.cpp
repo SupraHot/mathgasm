@@ -146,28 +146,26 @@ extern "C" {
 
      // - - - - - - - - - - float4x4 - - - - - - - - - - - 
     void mathgasm_float4x4_from_quaternion( float* q, float* dest ) { // Outputs 16 floats
-        float forward[ 3 ] = { 
-            2.0f * (q[ 0 ] * q[ 2 ] - q[ 3 ] * q[ 1 ]),
-            2.0f * (q[ 1 ] * q[ 2 ] + q[ 3 ] * q[ 0 ]),
-            1.0f - 2.0f * (q[ 0 ] * q[ 0 ] + q[ 1 ] * q[ 1 ]) 
-        };
         
-        float up[ 3 ]      = { 
-            2.0f * (q[ 0 ] * q[ 1 ] + q[ 3 ] * q[ 2 ]),         
-            1.0f - 2.0f * (q[ 0 ] * q[ 0 ] + q[ 2 ] * q[ 2 ]),  
-            2.0f * (q[ 1 ] * q[ 2 ] - q[ 3 ] * q[ 0 ]) 
-        };
-        
-        float right[ 3 ]   = { 
-            1.0f - 2.0f * (q[ 1 ] * q[ 1 ] + q[ 2 ] * q[ 2 ]),  
-            2.0f * (q[ 0 ] * q[ 1 ] - q[ 3 ] * q[ 2 ]),         
-            2.0f * (q[ 0 ] * q[ 2 ] + q[ 3 ] * q[ 1 ]) 
-        };
+        // forward
+        dest[ 0 ] = 2.0f * (q[ 0 ] * q[ 2 ] - q[ 3 ] * q[ 1 ]);
+        dest[ 1 ] = 2.0f * (q[ 1 ] * q[ 2 ] + q[ 3 ] * q[ 0 ]);
+        dest[ 2 ] = 1.0f - 2.0f * (q[ 0 ] * q[ 0 ] + q[ 1 ] * q[ 1 ]);
 
-        dest[ 0 ] = right[ 0 ];    dest[ 4 ] = right[ 1 ];    dest[ 8 ]  = right[ 2 ];    dest[ 12 ] = 0.0f;
-        dest[ 1 ] = up[ 0 ];       dest[ 5 ] = up[ 1 ];       dest[ 9 ]  = up[ 2 ];       dest[ 13 ] = 0.0f;
-        dest[ 2 ] = forward[ 0 ];  dest[ 6 ] = forward[ 1 ];  dest[ 10 ] = forward[ 2 ];  dest[ 14 ] = 0.0f;
-        dest[ 3 ] = 0.0f;          dest[ 7 ] = 0.0f;          dest[ 11 ] = 0.0f;          dest[ 15 ] = 1.0f;
+        // up
+        dest[ 3 ] = 2.0f * (q[ 0 ] * q[ 1 ] + q[ 3 ] * q[ 2 ]);
+        dest[ 4 ] = 1.0f - 2.0f * (q[ 0 ] * q[ 0 ] + q[ 2 ] * q[ 2 ]);
+        dest[ 5 ] = 2.0f * (q[ 1 ] * q[ 2 ] - q[ 3 ] * q[ 0 ]);
+
+        // right
+        dest[ 6 ] = 1.0f - 2.0f * (q[ 1 ] * q[ 1 ] + q[ 2 ] * q[ 2 ]);
+        dest[ 7 ] = 2.0f * (q[ 0 ] * q[ 1 ] - q[ 3 ] * q[ 2 ]);
+        dest[ 8 ] = 2.0f * (q[ 0 ] * q[ 2 ] + q[ 3 ] * q[ 1 ]);
+
+        dest[ 9 ] = dest[ 6 ];  dest[ 13 ] = dest[ 7 ];  dest[ 17 ] = dest[ 8 ];  dest[ 21 ] = 0.0f;
+        dest[ 10 ] = dest[ 3 ]; dest[ 14 ] = dest[ 4 ];  dest[ 18 ] = dest[ 5 ];  dest[ 22 ] = 0.0f;
+        dest[ 11 ] = dest[ 0 ]; dest[ 15 ] = dest[ 1 ];  dest[ 19 ] = dest[ 2 ];  dest[ 23 ] = 0.0f;
+        dest[ 12 ] = 0.0f;      dest[ 16 ] = 0.0f;       dest[ 20 ] = 0.0f;       dest[ 24 ] = 1.0f;
     }
 
     void mathgasm_float4x4_mul_vec( float* m, float* v, float* dest ) { // Outputs 3 floats

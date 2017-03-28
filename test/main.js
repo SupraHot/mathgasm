@@ -136,6 +136,12 @@ var __runTests = function( module ) {
 
         var decomposed = composed.decompose();
         console.log( "decomposed", decomposed );
+
+        var q = new mathgasm.Quat4( new mathgasm.Vec3( 0.5, 0.5, 0.0 ), 33.0 );
+        var m = new mathgasm.Mat4();
+        console.log( "q", q );
+        console.log( "m", m );
+        console.log( "from quaternion", m.setFromQuaternion( q ) );
     }
 };
 
