@@ -111,16 +111,21 @@ var __runTests = function( module ) {
         console.log( "A", A );
         console.log( "B", B );
         console.log( "C", C );
-
+        console.log( "v", v );
         console.log( "B * C", B.mulMat( C ) );
-
         console.log( "A * v", A.mulVec( v ) );
         console.log( "B * v", B.mulVec( v ) );
         console.log( "C * v", C.mulVec( v ) );
-
         console.log( "A * 12", A.mulScalar( 12.0 ) );
         console.log( "B * 12", B.mulScalar( 12.0 ) );
         console.log( "C * 12", C.mulScalar( 12.0 ) );
+
+        var bINVTR = B.invertedTR();
+        var bINV = B.inverted();
+        
+        console.log( "InvertedTR B", bINVTR );
+        console.log( "Inverted B", bINV );
+        console.log( "Inverted B * ( B * v )", bINV.mulVec( B.mulVec( v ) ) );
     }
 };
 

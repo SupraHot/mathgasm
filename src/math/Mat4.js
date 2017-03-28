@@ -128,11 +128,63 @@ class Mat4 {
     }
 
     invertedTR() {
+        // load data into memory
+        Heap.HEAPF32[ 0 ]  = this.m00;
+        Heap.HEAPF32[ 1 ]  = this.m01;
+        Heap.HEAPF32[ 2 ]  = this.m02;
+        Heap.HEAPF32[ 3 ]  = this.m03;
+        Heap.HEAPF32[ 4 ]  = this.m10;
+        Heap.HEAPF32[ 5 ]  = this.m11;
+        Heap.HEAPF32[ 6 ]  = this.m12;
+        Heap.HEAPF32[ 7 ]  = this.m13;
+        Heap.HEAPF32[ 8 ]  = this.m20;
+        Heap.HEAPF32[ 9 ]  = this.m21;
+        Heap.HEAPF32[ 10 ] = this.m22;
+        Heap.HEAPF32[ 11 ] = this.m23;
+        Heap.HEAPF32[ 12 ] = this.m30;
+        Heap.HEAPF32[ 13 ] = this.m31;
+        Heap.HEAPF32[ 14 ] = this.m32;
+        Heap.HEAPF32[ 15 ] = this.m33;
 
+        // execute
+        __Native._mathgasm_float4x4_inverse_tr( 0, 64 ); 
+
+        return new Mat4( 
+            Heap.HEAPF32[ 16 ], Heap.HEAPF32[ 17 ], Heap.HEAPF32[ 18 ], Heap.HEAPF32[ 19 ],
+            Heap.HEAPF32[ 20 ], Heap.HEAPF32[ 21 ], Heap.HEAPF32[ 22 ], Heap.HEAPF32[ 23 ],
+            Heap.HEAPF32[ 24 ], Heap.HEAPF32[ 25 ], Heap.HEAPF32[ 26 ], Heap.HEAPF32[ 27 ],
+            Heap.HEAPF32[ 28 ], Heap.HEAPF32[ 29 ], Heap.HEAPF32[ 30 ], Heap.HEAPF32[ 31 ]
+        );
     }
 
     inverted() {
+           // load data into memory
+        Heap.HEAPF32[ 0 ]  = this.m00;
+        Heap.HEAPF32[ 1 ]  = this.m01;
+        Heap.HEAPF32[ 2 ]  = this.m02;
+        Heap.HEAPF32[ 3 ]  = this.m03;
+        Heap.HEAPF32[ 4 ]  = this.m10;
+        Heap.HEAPF32[ 5 ]  = this.m11;
+        Heap.HEAPF32[ 6 ]  = this.m12;
+        Heap.HEAPF32[ 7 ]  = this.m13;
+        Heap.HEAPF32[ 8 ]  = this.m20;
+        Heap.HEAPF32[ 9 ]  = this.m21;
+        Heap.HEAPF32[ 10 ] = this.m22;
+        Heap.HEAPF32[ 11 ] = this.m23;
+        Heap.HEAPF32[ 12 ] = this.m30;
+        Heap.HEAPF32[ 13 ] = this.m31;
+        Heap.HEAPF32[ 14 ] = this.m32;
+        Heap.HEAPF32[ 15 ] = this.m33;
 
+        // execute
+        __Native._mathgasm_float4x4_inverse( 0, 64 ); 
+
+        return new Mat4( 
+            Heap.HEAPF32[ 16 ], Heap.HEAPF32[ 17 ], Heap.HEAPF32[ 18 ], Heap.HEAPF32[ 19 ],
+            Heap.HEAPF32[ 20 ], Heap.HEAPF32[ 21 ], Heap.HEAPF32[ 22 ], Heap.HEAPF32[ 23 ],
+            Heap.HEAPF32[ 24 ], Heap.HEAPF32[ 25 ], Heap.HEAPF32[ 26 ], Heap.HEAPF32[ 27 ],
+            Heap.HEAPF32[ 28 ], Heap.HEAPF32[ 29 ], Heap.HEAPF32[ 30 ], Heap.HEAPF32[ 31 ]
+        );
     }
 
     decompose() {
