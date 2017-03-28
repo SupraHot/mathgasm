@@ -1,5 +1,5 @@
 // COMPILE TIME DEFINITIONS (Generated via gulp) 
-var __DATE__ = "Tue Mar 28 2017 13:09:15 GMT+0200 (CEST)"; 
+var __DATE__ = "Tue Mar 28 2017 13:20:00 GMT+0200 (CEST)"; 
 // END COMPILE TIME DEFINITIONS 
  
 console.log('Compiled at', __DATE__);
@@ -792,11 +792,119 @@ var Vec4 = function () {
     return Vec4;
 }();
 
+var Mat4 = function () {
+    // byte size = 
+    function Mat4() {
+        var m00 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1.0;
+        var m01 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.0;
+        var m02 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.0;
+        var m03 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.0;
+        var m10 = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0.0;
+        var m11 = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1.0;
+        var m12 = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0.0;
+        var m13 = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 0.0;
+        var m20 = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : 0.0;
+        var m21 = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : 0.0;
+        var m22 = arguments.length > 10 && arguments[10] !== undefined ? arguments[10] : 1.0;
+        var m23 = arguments.length > 11 && arguments[11] !== undefined ? arguments[11] : 0.0;
+        var m30 = arguments.length > 12 && arguments[12] !== undefined ? arguments[12] : 0.0;
+        var m31 = arguments.length > 13 && arguments[13] !== undefined ? arguments[13] : 0.0;
+        var m32 = arguments.length > 14 && arguments[14] !== undefined ? arguments[14] : 0.0;
+        var m33 = arguments.length > 15 && arguments[15] !== undefined ? arguments[15] : 1.0;
+        classCallCheck(this, Mat4);
+
+        this.m00 = m00;this.m10 = m10;this.m20 = m20;this.m30 = m30;
+        this.m01 = m01;this.m11 = m11;this.m21 = m21;this.m31 = m31;
+        this.m02 = m02;this.m12 = m12;this.m22 = m22;this.m32 = m32;
+        this.m03 = m03;this.m13 = m13;this.m23 = m23;this.m33 = m33;
+    }
+
+    createClass(Mat4, [{
+        key: 'setFromQuaternion',
+        value: function setFromQuaternion(q) {}
+    }, {
+        key: 'mulMat',
+        value: function mulMat(m) {
+            // load matrices into memory
+            heap.HEAPF32[0] = this.m00;
+            heap.HEAPF32[1] = this.m01;
+            heap.HEAPF32[2] = this.m02;
+            heap.HEAPF32[3] = this.m03;
+            heap.HEAPF32[4] = this.m10;
+            heap.HEAPF32[5] = this.m11;
+            heap.HEAPF32[6] = this.m12;
+            heap.HEAPF32[7] = this.m13;
+            heap.HEAPF32[8] = this.m20;
+            heap.HEAPF32[9] = this.m21;
+            heap.HEAPF32[10] = this.m22;
+            heap.HEAPF32[11] = this.m23;
+            heap.HEAPF32[12] = this.m30;
+            heap.HEAPF32[13] = this.m31;
+            heap.HEAPF32[14] = this.m32;
+            heap.HEAPF32[15] = this.m33;
+
+            heap.HEAPF32[16] = m.m00;
+            heap.HEAPF32[17] = m.m01;
+            heap.HEAPF32[18] = m.m02;
+            heap.HEAPF32[19] = m.m03;
+            heap.HEAPF32[20] = m.m10;
+            heap.HEAPF32[21] = m.m11;
+            heap.HEAPF32[22] = m.m12;
+            heap.HEAPF32[23] = m.m13;
+            heap.HEAPF32[24] = m.m20;
+            heap.HEAPF32[25] = m.m21;
+            heap.HEAPF32[26] = m.m22;
+            heap.HEAPF32[27] = m.m23;
+            heap.HEAPF32[28] = m.m30;
+            heap.HEAPF32[29] = m.m31;
+            heap.HEAPF32[30] = m.m32;
+            heap.HEAPF32[31] = m.m33;
+
+            // execute
+            exports.__Native._mathgasm_float4x4_mul(0, 64, 128);
+
+            return new Mat4(heap.HEAPF32[32], heap.HEAPF32[33], heap.HEAPF32[34], heap.HEAPF32[35], heap.HEAPF32[36], heap.HEAPF32[37], heap.HEAPF32[38], heap.HEAPF32[39], heap.HEAPF32[40], heap.HEAPF32[41], heap.HEAPF32[42], heap.HEAPF32[43], heap.HEAPF32[44], heap.HEAPF32[45], heap.HEAPF32[46], heap.HEAPF32[47]);
+        }
+    }, {
+        key: 'mulVec',
+        value: function mulVec(v) {}
+    }, {
+        key: 'mulScalar',
+        value: function mulScalar(s) {}
+    }, {
+        key: 'invertedTR',
+        value: function invertedTR() {}
+    }, {
+        key: 'inverted',
+        value: function inverted() {}
+    }, {
+        key: 'decompose',
+        value: function decompose() {}
+
+        // add( v ) {
+        //     // load vectors into memory
+        //     Heap.HEAPF32[ 0 ] = this.x;
+        //     Heap.HEAPF32[ 1 ] = this.y;
+        //     Heap.HEAPF32[ 2 ] = v.x;
+        //     Heap.HEAPF32[ 3 ] = v.y;
+
+        //     // execute
+        //     __Native._mathgasm_float2_add( 0, 8, 16 ); 
+
+        //     // copy result
+        //     return new Vec2( Heap.HEAPF32[ 4 ], Heap.HEAPF32[ 5 ] );
+        // }
+
+    }]);
+    return Mat4;
+}();
+
 // Utils
 
 exports.Vec2 = Vec2;
 exports.Vec3 = Vec3;
 exports.Vec4 = Vec4;
+exports.Mat4 = Mat4;
 exports.Bootstrapper = bootstrapper;
 exports.Heap = heap;
 
