@@ -100,6 +100,19 @@ var __runTests = function( module ) {
         console.log( "v normlized length", v.normalized().length() );
         console.log( "lerp v u", v.lerped( u, 0.5 ) );
     }
+
+    // mat4
+    {
+        var A = new mathgasm.Mat4( 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 );
+        var B = new mathgasm.Mat4( 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2 );
+        var C = new mathgasm.Mat4( 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3 );
+        
+        console.log( "A", A );
+        console.log( "B", B );
+        console.log( "C", C );
+
+        console.log( "B * C", B.mulMat( C ) );
+    }
 };
 
 gogogo = function() {   
