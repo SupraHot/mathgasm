@@ -122,10 +122,20 @@ var __runTests = function( module ) {
 
         var bINVTR = B.invertedTR();
         var bINV = B.inverted();
-        
+
         console.log( "InvertedTR B", bINVTR );
         console.log( "Inverted B", bINV );
         console.log( "Inverted B * ( B * v )", bINV.mulVec( B.mulVec( v ) ) );
+
+        var composed = new mathgasm.Mat4(
+            12, 0, 0, 0,
+            0, 13, 0, 0,
+            0, 0, 14, 0,
+            1, 2, 3, 1
+        );
+
+        var decomposed = composed.decompose();
+        console.log( "decomposed", decomposed );
     }
 };
 
