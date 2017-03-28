@@ -1,5 +1,6 @@
 import { __Native } from '../util/Bootstrapper.js'
 import { Heap } from '../util/Heap.js'
+import { Vec3 } from './Vec3.js'
 
 class Mat4 {
     // byte size = 
@@ -66,7 +67,32 @@ class Mat4 {
     }
 
     mulVec( v ) {
+        // load data into memory
+        Heap.HEAPF32[ 0 ]  = this.m00;
+        Heap.HEAPF32[ 1 ]  = this.m01;
+        Heap.HEAPF32[ 2 ]  = this.m02;
+        Heap.HEAPF32[ 3 ]  = this.m03;
+        Heap.HEAPF32[ 4 ]  = this.m10;
+        Heap.HEAPF32[ 5 ]  = this.m11;
+        Heap.HEAPF32[ 6 ]  = this.m12;
+        Heap.HEAPF32[ 7 ]  = this.m13;
+        Heap.HEAPF32[ 8 ]  = this.m20;
+        Heap.HEAPF32[ 9 ]  = this.m21;
+        Heap.HEAPF32[ 10 ] = this.m22;
+        Heap.HEAPF32[ 11 ] = this.m23;
+        Heap.HEAPF32[ 12 ] = this.m30;
+        Heap.HEAPF32[ 13 ] = this.m31;
+        Heap.HEAPF32[ 14 ] = this.m32;
+        Heap.HEAPF32[ 15 ] = this.m33;
 
+        Heap.HEAPF32[ 16 ] = v.x;
+        Heap.HEAPF32[ 17 ] = v.y;
+        Heap.HEAPF32[ 18 ] = v.z;
+
+        // execute
+        __Native._mathgasm_float4x4_mul_vec( 0, 64, 76 ); 
+
+        return new Vec3( Heap.HEAPF32[ 19 ], Heap.HEAPF32[ 20 ], Heap.HEAPF32[ 21 ] );
     }
 
     mulScalar( s ) {
@@ -82,22 +108,12 @@ class Mat4 {
     }
 
     decompose() {
-
+        return {
+            scale       : new Vec3(),
+            translation : new Vec3(),
+            rotation    : {} // Quat4
+        };
     }
-
-    // add( v ) {
-    //     // load vectors into memory
-    //     Heap.HEAPF32[ 0 ] = this.x;
-    //     Heap.HEAPF32[ 1 ] = this.y;
-    //     Heap.HEAPF32[ 2 ] = v.x;
-    //     Heap.HEAPF32[ 3 ] = v.y;
-
-    //     // execute
-    //     __Native._mathgasm_float2_add( 0, 8, 16 ); 
-
-    //     // copy result
-    //     return new Vec2( Heap.HEAPF32[ 4 ], Heap.HEAPF32[ 5 ] );
-    // }
 }
 
 export { Mat4 };

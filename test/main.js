@@ -106,12 +106,17 @@ var __runTests = function( module ) {
         var A = new mathgasm.Mat4( 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 );
         var B = new mathgasm.Mat4( 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2 );
         var C = new mathgasm.Mat4( 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3 );
+        var v = new mathgasm.Vec3( 1, 2, 3 );
         
         console.log( "A", A );
         console.log( "B", B );
         console.log( "C", C );
 
         console.log( "B * C", B.mulMat( C ) );
+
+        console.log( "A * v", A.mulVec( v ) );
+        console.log( "B * v", B.mulVec( v ) );
+        console.log( "C * v", C.mulVec( v ) );
     }
 };
 
