@@ -1,5 +1,5 @@
 // COMPILE TIME DEFINITIONS (Generated via gulp) 
-var __DATE__ = "Tue Mar 28 2017 13:31:21 GMT+0200 (CEST)"; 
+var __DATE__ = "Tue Mar 28 2017 13:33:30 GMT+0200 (CEST)"; 
 // END COMPILE TIME DEFINITIONS 
  
 console.log('Compiled at', __DATE__);
@@ -897,7 +897,32 @@ var Mat4 = function () {
         }
     }, {
         key: 'mulScalar',
-        value: function mulScalar(s) {}
+        value: function mulScalar(s) {
+            // load data into memory
+            heap.HEAPF32[0] = this.m00;
+            heap.HEAPF32[1] = this.m01;
+            heap.HEAPF32[2] = this.m02;
+            heap.HEAPF32[3] = this.m03;
+            heap.HEAPF32[4] = this.m10;
+            heap.HEAPF32[5] = this.m11;
+            heap.HEAPF32[6] = this.m12;
+            heap.HEAPF32[7] = this.m13;
+            heap.HEAPF32[8] = this.m20;
+            heap.HEAPF32[9] = this.m21;
+            heap.HEAPF32[10] = this.m22;
+            heap.HEAPF32[11] = this.m23;
+            heap.HEAPF32[12] = this.m30;
+            heap.HEAPF32[13] = this.m31;
+            heap.HEAPF32[14] = this.m32;
+            heap.HEAPF32[15] = this.m33;
+
+            heap.HEAPF32[16] = s;
+
+            // execute
+            exports.__Native._mathgasm_float4x4_mul_scalar(0, 64, 68);
+
+            return new Mat4(heap.HEAPF32[17], heap.HEAPF32[18], heap.HEAPF32[19], heap.HEAPF32[20], heap.HEAPF32[21], heap.HEAPF32[22], heap.HEAPF32[23], heap.HEAPF32[24], heap.HEAPF32[25], heap.HEAPF32[26], heap.HEAPF32[27], heap.HEAPF32[28], heap.HEAPF32[29], heap.HEAPF32[30], heap.HEAPF32[31], heap.HEAPF32[32]);
+        }
     }, {
         key: 'invertedTR',
         value: function invertedTR() {}
