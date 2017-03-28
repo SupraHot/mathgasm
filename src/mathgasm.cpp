@@ -493,14 +493,10 @@ extern "C" {
         // Decompose output begins after 16 floats. @ dest[ 16 ]
         
         
-        // Scale x
-        dest[ 16 ] = sqrtf( m[ 0 ] * m[ 0 ] + m[ 1 ] * m[ 1 ] + m[ 2 ] * m[ 2 ] ); 
-
-        // Scale y
-        dest[ 17 ] = sqrtf( m[ 4 ] * m[ 4 ] + m[ 5 ] * m[ 5 ] + m[ 6 ] * m[ 6 ] ); 
-
-        // Scale z
-        dest[ 18 ] = sqrtf( m[ 8 ] * m[ 8 ] + m[ 9 ] * m[ 9 ] + m[ 10 ] * m[ 10 ] );
+        // Scale 
+        dest[ 16 ] = sqrtf( m[ 0 ] * m[ 0 ] + m[ 1 ] * m[ 1 ] + m[ 2 ] * m[ 2 ] );   // x
+        dest[ 17 ] = sqrtf( m[ 4 ] * m[ 4 ] + m[ 5 ] * m[ 5 ] + m[ 6 ] * m[ 6 ] );   // y
+        dest[ 18 ] = sqrtf( m[ 8 ] * m[ 8 ] + m[ 9 ] * m[ 9 ] + m[ 10 ] * m[ 10 ] ); // z
 
         if ( determinat < 0 ) {
             dest[ 18 ] = - dest[ 18 ];
@@ -511,26 +507,55 @@ extern "C" {
         dest[ 20 ] = m[ 13 ]; // y
         dest[ 21 ] = m[ 14 ]; // z
         
+        float invScaleX = 1.0f / dest[ 16 ];
+        float invScaleY = 1.0f / dest[ 17 ];
+        float invScaleZ = 1.0f / dest[ 18 ];
 
+        m[ 0 ] *= invScaleX;
+        m[ 1 ] *= invScaleX;
+        m[ 2 ] *= invScaleX;
+        
+        m[ 4 ] *= invScaleY;
+        m[ 5 ] *= invScaleY;
+        m[ 6 ] *= invScaleY;
+        
+        m[ 8 ] *= invScaleZ;
+        m[ 9 ] *= invScaleZ;
+        m[ 10 ] *= invScaleZ;
 
-        // var rotationMatrix = this.clone();
-        // var invScaleX = 1.0 / sx;
-        // var invScaleY = 1.0 / sy;
-        // var invScaleZ = 1.0 / sz;
+        // Rotation
+        dest[ 22 ] = 0.0f;  // v x
+        dest[ 23 ] = 0.0f;  // v y
+        dest[ 24 ] = 0.0f;  // v z
+        dest[ 25 ] = 0.0f;  // w
 
-        // rotationMatrix.m00 *= invScaleX;
-        // rotationMatrix.m01 *= invScaleX;
-        // rotationMatrix.m02 *= invScaleX;
+        float tr = m[ 0 ] + m[ 5 ] + m[ 10 ];
 
-        // rotationMatrix.m10 *= invScaleY;
-        // rotationMatrix.m11 *= invScaleY;
-        // rotationMatrix.m12 *= invScaleY;
-
-        // rotationMatrix.m20 *= invScaleZ;
-        // rotationMatrix.m21 *= invScaleZ;
-        // rotationMatrix.m22 *= invScaleZ;
-
-        // rotation = rotation.setFromRotationMatrix(rotationMatrix);
+        if ( tr > 0 ) {
+            float S = sqrtf( tr + 1.0f ) * 2.0f; // S=4*qw 
+            dest[ 25 ] = 0.25f * S;
+            dest[ 22 ] = ( m[ 9 ] - m[ 6 ] ) / S;
+            dest[ 23 ] = ( m[ 2 ] - m[ 8 ] ) / S;
+            dest[ 24 ] = ( m[ 4 ] - m[ 1 ] ) / S;
+        } else if ( ( m[ 0 ] > m[ 5 ] ) & ( m[ 0 ] > m[ 10 ] ) ) {
+            float S = sqrtf(1.0f + m[ 0 ] - m[ 5 ] - m[ 10 ]) * 2.0f; // S=4*qx 
+            dest[ 25 ] = ( m[ 9 ] - m[ 6 ] ) / S;
+            dest[ 22 ] = 0.25f * S;
+            dest[ 23 ] = ( m[ 1 ] + m[ 4 ] ) / S;
+            dest[ 24 ] = ( m[ 2 ] + m[ 8 ] ) / S;
+        } else if ( m[ 5 ] > m[ 10 ] ) {
+            float S = sqrtf( 1.0f + m[ 5 ] - m[ 0 ] - m[ 10 ] ) * 2.0f; // S=4*qy
+            dest[ 25 ] = ( m[ 2 ] - m[ 8 ] ) / S;
+            dest[ 22 ] = ( m[ 1 ] + m[ 4 ] ) / S;
+            dest[ 23 ] = 0.25f * S;
+            dest[ 24 ] = ( m[ 6 ] + m[ 9 ] ) / S;
+        } else {
+            float S = sqrtf( 1.0f + m[ 10 ] - m[ 0 ] - m[ 5 ] ) * 2.0f; // S=4*qz
+            dest[ 25 ] = ( m[ 4 ] - m[ 1 ] ) / S;
+            dest[ 22 ] = ( m[ 2 ] + m[ 8 ] ) / S;
+            dest[ 23 ] = ( m[ 6 ] + m[ 9 ] ) / S;
+            dest[ 24 ] = 0.25 * S;
+        }        
     }
 
     void mathgasm_float4x4_mul( float* a, float* b, float* dest ) { // Outputs 16 floats
