@@ -66,7 +66,10 @@ class Bootstrapper {
                 ABORT : 0,
                 abortStackOverflow : function(){},
                 _malloc : Heap.malloc.bind( Heap ),
-                _printf : console.log
+                _printf : console.log,
+                _sinf : Math.sin,
+                _atan2f : Math.atan2,
+                _acosf : Math.acos
             },
             global: {
                 NaN :0,

@@ -18,7 +18,7 @@ const path         = require( 'path' );
 
 gulp.task( 'build', function() {
     //exec('tc src/mathgasm.tbs --wasm --out build/mathgasm.wasm', function( err, stdout, stderr ) {
-    exec('emcc src/mathgasm.cpp -O0 -s WASM=1 -s SIDE_MODULE=1 -o build/mathgasm.wasm', function( err, stdout, stderr ) {
+    exec('em++ src/mathgasm.cpp -O0 -s WASM=1 -s SIDE_MODULE=1 -o build/mathgasm.wasm', function( err, stdout, stderr ) {
         console.log(stdout);
         console.log(stderr);
     });

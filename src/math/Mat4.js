@@ -155,7 +155,7 @@ class Mat4 {
     }
 
     inverted() {
-           // load data into memory
+        // load data into memory
         Heap.HEAPF32[ 0 ]  = this.m00;
         Heap.HEAPF32[ 1 ]  = this.m01;
         Heap.HEAPF32[ 2 ]  = this.m02;

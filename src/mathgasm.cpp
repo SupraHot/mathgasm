@@ -106,7 +106,8 @@ extern "C" {
         dest[ 2 ] = a[ 2 ] + ( b[ 2 ] - a[ 2 ] ) * dt[ 0 ];
     }
 
-     // - - - - - - - - - - float4 - - - - - - - - - - - 
+    // - - - - - - - - - - float4 - - - - - - - - - - - 
+
     void mathgasm_float4_add( float* a, float* b, float* dest ) {
         dest[ 0 ] = a[ 0 ] + b[ 0 ];
         dest[ 1 ] = a[ 1 ] + b[ 1 ];
@@ -144,9 +145,9 @@ extern "C" {
         dest[ 3 ] = a[ 3 ] + ( b[ 3 ] - a[ 3 ] ) * dt[ 0 ];
     }
 
-     // - - - - - - - - - - float4x4 - - - - - - - - - - - 
-    void mathgasm_float4x4_from_quaternion( float* q, float* dest ) { // Outputs 16 floats
-        
+    // - - - - - - - - - - float4x4 - - - - - - - - - - - 
+
+    void mathgasm_float4x4_from_quaternion( float* q, float* dest ) { // Outputs 35 floats 
         // forward
         dest[ 0 ] = 2.0f * (q[ 0 ] * q[ 2 ] - q[ 3 ] * q[ 1 ]);
         dest[ 1 ] = 2.0f * (q[ 1 ] * q[ 2 ] + q[ 3 ] * q[ 0 ]);
@@ -214,15 +215,13 @@ extern "C" {
         dest[ 14 ] = 0.0f;
         dest[ 15 ] = 1.0f; 
 
-        float translation[ 3 ] = { 
-            dest[ 0 ] * -m[ 12 ] + dest[ 4 ] * -m[ 13 ] + dest[ 8 ]  * -m[ 14 ] + dest[ 12 ], 
-            dest[ 1 ] * -m[ 12 ] + dest[ 5 ] * -m[ 13 ] + dest[ 9 ]  * -m[ 14 ] + dest[ 13 ], 
-            dest[ 2 ] * -m[ 12 ] + dest[ 6 ] * -m[ 13 ] + dest[ 10 ] * -m[ 14 ] + dest[ 14 ]
-        };
-        
-        dest[ 12 ] = translation[ 0 ];
-        dest[ 13 ] = translation[ 1 ];
-        dest[ 14 ] = translation[ 2 ];
+        float translationX = dest[ 0 ] * -m[ 12 ] + dest[ 4 ] * -m[ 13 ] + dest[ 8 ]  * -m[ 14 ] + dest[ 12 ];
+        float translationY = dest[ 1 ] * -m[ 12 ] + dest[ 5 ] * -m[ 13 ] + dest[ 9 ]  * -m[ 14 ] + dest[ 13 ];
+        float translationZ = dest[ 2 ] * -m[ 12 ] + dest[ 6 ] * -m[ 13 ] + dest[ 10 ] * -m[ 14 ] + dest[ 14 ];
+
+        dest[ 12 ] = translationX;
+        dest[ 13 ] = translationY;
+        dest[ 14 ] = translationZ;
      }
 
      
@@ -573,5 +572,120 @@ extern "C" {
         dest[ 13 ] = a[ 1 ] * b[ 12 ] + a[ 5 ] * b[ 13 ] + a[ 9 ]  * b[ 14 ] + a[ 13 ] * b[ 15 ];
         dest[ 14 ] = a[ 2 ] * b[ 12 ] + a[ 6 ] * b[ 13 ] + a[ 10 ] * b[ 14 ] + a[ 14 ] * b[ 15 ];
         dest[ 15 ] = a[ 3 ] * b[ 12 ] + a[ 7 ] * b[ 13 ] + a[ 11 ] * b[ 14 ] + a[ 15 ] * b[ 15 ];
+    }
+
+    // - - - - - - - - - - quaternion (float4) - - - - - - - - - - - 
+    void mathgasm_quaternion_mul_quat( float* q0, float* q1, float* dest ) {
+
+        // result.w = this.w * q.w - this.axis.dot( q.axis );
+        // result.axis = this.axis.mul( q.w ).add( q.axis.mul( this.w ) ).add( this.axis.cross( q.axis ) );
+        // return result;
+
+        dest[ 3 ] = q0[ 3 ] * q1[ 3 ] - ( q0[ 0 ] * q1[ 0 ] + q0[ 1 ] * q1[ 1 ] + q0[ 2 ] * q1[ 2 ] );          // w
+        dest[ 0 ] = ( q0[ 0 ] * q1[ 3 ] ) + ( q1[ 0 ] * q0[ 3 ] ) + ( q0[ 1 ] * q1[ 2 ] - q0[ 2 ] * q1[ 1 ] );  // x
+        dest[ 1 ] = ( q0[ 1 ] * q1[ 3 ] ) + ( q1[ 1 ] * q0[ 3 ] ) + ( q0[ 2 ] * q1[ 0 ] - q0[ 0 ] * q1[ 2 ] );  // y
+        dest[ 2 ] = ( q0[ 2 ] * q1[ 3 ] ) + ( q1[ 2 ] * q0[ 3 ] ) + ( q0[ 0 ] * q1[ 1 ] - q0[ 1 ] * q1[ 0 ] );  // z
+    }
+
+    void mathgasm_quaternion_mul_vec( float* q, float* v, float* dest ) {
+        float vcVX = q[ 1 ] * v[ 2 ] - q[ 2 ] * v[ 1 ];
+        float vcVY = q[ 2 ] * v[ 0 ] - q[ 0 ] * v[ 2 ];
+        float vcVZ = q[ 0 ] * v[ 1 ] - q[ 1 ] * v[ 0 ];
+
+        float acVX = q[ 1 ] * vcVZ - q[ 2 ] * vcVY;
+        float acVY = q[ 2 ] * vcVX - q[ 0 ] * vcVZ;
+        float acVZ = q[ 0 ] * vcVY - q[ 1 ] * vcVX;
+
+        dest[ 0 ] = v[ 0 ] + ( vcVX * 2.0f * q[ 3 ]) + acVX * 2.0f;
+        dest[ 1 ] = v[ 1 ] + ( vcVY * 2.0f * q[ 3 ]) + acVY * 2.0f;
+        dest[ 2 ] = v[ 2 ] + ( vcVZ * 2.0f * q[ 3 ]) + acVZ * 2.0f;	
+    }
+
+    void mathgasm_quaternion_slerp( float* q, float* r, float* dt, float* dest ) {
+        float cosOmega = q[ 3 ] * r[ 3 ] + ( r[ 0 ] * q[ 0 ] + r[ 1 ] * q[ 1 ] + r[ 2 ] * q[ 2 ] );
+
+        if (cosOmega < 0) {
+            r[ 3 ] = -r[ 3 ];
+            r[ 0 ] = -r[ 0 ];
+            r[ 1 ] = -r[ 1 ];
+            r[ 2 ] = -r[ 2 ];
+            cosOmega = -cosOmega;
+        }
+
+        float k0, k1;
+        if ( cosOmega > 0.9999f ){
+            k0 = 1.0f - dt[ 0 ];
+            k1 = dt[ 0 ];
+        } else {
+            float sinOmega = sqrtf( 1.0f - cosOmega * cosOmega );
+            float omega = atan2f( sinOmega, cosOmega );
+            float oneOverSinOmega = 1.0f / sinOmega;
+            k0 = sinf( ( 1.0f - dt[ 0 ] ) * omega ) * oneOverSinOmega;
+            k1 = sinf( dt[ 0 ] * omega ) * oneOverSinOmega;
+        }
+
+        // Interpolate
+        dest[ 3 ] = q[ 3 ] * k0 + r[ 3 ] * k1;
+        dest[ 0 ] = q[ 0 ] * k0 + r[ 0 ] * k1;
+        dest[ 1 ] = q[ 1 ] * k0 + r[ 1 ] * k1;
+        dest[ 2 ] = q[ 2 ] * k0 + r[ 2 ] * k1;
+    }
+
+    void mathgasm_quaternion_to_axis_angle( float* q, float* dest ) {
+        float lengthSquared = q[ 0 ] * q[ 0 ] + q[ 1 ] * q[ 1 ] + q[ 2 ] * q[ 2 ];
+
+        if ( lengthSquared < 0.0001f ) {
+            dest[ 0 ] = 1.0f;
+            dest[ 1 ] = 0.0f;
+            dest[ 2 ] = 0.0f;
+        } else {
+            const float inverseLength = 1.0f / sqrtf( lengthSquared );
+            dest[ 0 ] = q[ 0 ] * inverseLength;
+            dest[ 1 ] = q[ 1 ] * inverseLength;
+            dest[ 2 ] = q[ 2 ] * inverseLength;
+        }
+
+        dest[ 3 ] = ( acosf( q[ 3 ] ) * 2.0f) * ( 360.0f / ( 2.0f * 3.14159265359f ) );
+    }
+
+    void mathgasm_quaternion_normalize( float* q, float* dest ) {
+        float length = 1.0f / sqrtf( q[ 0 ] * q[ 0 ] + q[ 1 ] * q[ 1 ] + q[ 2 ] * q[ 2 ] + q[ 3 ] * q[ 3 ] );
+        dest[ 0 ] = q[ 0 ] * length;
+        dest[ 1 ] = q[ 1 ] * length;
+        dest[ 2 ] = q[ 2 ] * length;
+        dest[ 3 ] = q[ 3 ] * length;
+    }
+
+    void mathgasm_quaternion_set_from_matrix( float* m, float* dest ) {
+        // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+        // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
+
+        float tr = m[ 0 ] + m[ 5 ] + m[ 10 ];
+
+        if ( tr > 0.0f ) {
+            float S = sqrtf( tr + 1.0f ) * 2.0f; // S=4*qx 
+            dest[ 3 ] = 0.25f * S;
+            dest[ 0 ] = ( m[ 9 ] - m[ 6 ] ) / S;
+            dest[ 1 ] = ( m[ 2 ] - m[ 8 ] ) / S;
+            dest[ 2 ] = ( m[ 4 ] - m[ 1 ] ) / S;
+        } else if ( ( m[ 0 ] > m[ 5 ] ) & ( m[ 0 ] > m[ 10 ] ) ) {
+            float S = sqrtf( 1.0f + m[ 0 ] - m[ 5 ] - m[ 10 ] ) * 2.0f; // S=4*qx 
+            dest[ 3 ] = ( m[ 9 ] - m[ 6 ] ) / S;
+            dest[ 0 ] = 0.25f * S;
+            dest[ 1 ] = ( m[ 1 ] + m[ 4 ] ) / S;
+            dest[ 2 ] = ( m[ 2 ] + m[ 8 ] ) / S;
+        } else if (m[ 5 ] > m[ 10 ]) {
+            float S = sqrtf( 1.0f + m[ 5 ] - m[ 0 ] - m[ 10 ] ) * 2.0f; // S=4*qy
+            dest[ 3 ] = ( m[ 2 ] - m[ 8 ] ) / S;
+            dest[ 0 ] = ( m[ 1 ] + m[ 4 ] ) / S;
+            dest[ 1 ] = 0.25f * S;
+            dest[ 2 ] = ( m[ 6 ] + m[ 9 ] ) / S;
+        } else {
+            float S = sqrtf( 1.0f + m[ 10 ] - m[ 0 ] - m[ 5 ] ) * 2.0f; // S=4*qz
+            dest[ 3 ] = ( m[ 4 ] - m[ 1 ] ) / S;
+            dest[ 0 ] = ( m[ 2 ] + m[ 8 ] ) / S;
+            dest[ 1 ] = ( m[ 6 ] + m[ 9 ] ) / S;
+            dest[ 2 ] = 0.25f * S;
+        }
     }
 }

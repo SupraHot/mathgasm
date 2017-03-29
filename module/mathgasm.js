@@ -1,5 +1,5 @@
 // COMPILE TIME DEFINITIONS (Generated via gulp) 
-var __DATE__ = "Tue Mar 28 2017 16:16:47 GMT+0200 (CEST)"; 
+var __DATE__ = "Wed Mar 29 2017 12:38:43 GMT+0200 (CEST)"; 
 // END COMPILE TIME DEFINITIONS 
  
 console.log('Compiled at', __DATE__);
@@ -47,165 +47,29 @@ var Heap = function () {
         key: "__initHeap",
         value: function __initHeap(buffer) {
             this.wasmMemoryBuffer = buffer;
-            this.HEAP8 = new Int8Array(buffer);
-            this.HEAP16 = new Int16Array(buffer);
-            this.HEAP32 = new Int32Array(buffer);
-            this.HEAPU8 = new Uint8Array(buffer);
-            this.HEAPU16 = new Uint16Array(buffer);
-            this.HEAPU32 = new Uint32Array(buffer);
+            // this.HEAP8   = new Int8Array( buffer );
+            // this.HEAP16  = new Int16Array( buffer );
+            // this.HEAP32  = new Int32Array( buffer );
+            // this.HEAPU8  = new Uint8Array( buffer );
+            // this.HEAPU16 = new Uint16Array( buffer );
+            // this.HEAPU32 = new Uint32Array( buffer );
             this.HEAPF32 = new Float32Array(buffer);
-            this.HEAPF64 = new Float64Array(buffer);
+            // this.HEAPF64 = new Float64Array( buffer );
             this.__initMalloc();
         }
     }, {
         key: "__initMalloc",
         value: function __initMalloc() {
-            this.HEAPU32[20 >> 2] = 0;
-            this.HEAPU32[24 >> 2] = 0;
-            this.HEAPU32[28 >> 2] = 0;
-            this.HEAP32[8 >> 2] = 40 | 0;
-            this.HEAP32[12 >> 2] = 40 | 0;
+            // this.HEAPU32[(20) >> 2] = 0;
+            // this.HEAPU32[(24) >> 2] = 0;
+            // this.HEAPU32[(28) >> 2] = 0;
+            // this.HEAP32[(8) >> 2] = (40|0);
+            // this.HEAP32[(12) >> 2] = (40|0);
         }
     }, {
         key: "malloc",
         value: function malloc(nbytes) {
-            nbytes = nbytes | 0;
-            var alignment = 8;
-            var chunkSize = 0;
-            var freeChunk = 0;
-            var offset = 0;
-            var top = 0;
-            var ptr = 0;
-            nbytes = (nbytes | 0) + ((alignment | 0) - (1 | 0) | 0) | 0 | 0 | 0 & ~(alignment - (1 | 0)) | 0 | 0 | 0;
-            chunkSize = (nbytes | 0) + (8 | 0) | 0;
-            freeChunk = this.getFreeChunk(chunkSize | 0) | 0;
-
-            if ((freeChunk | 0 | 0) > (0 | 0) | 0) {
-                return freeChunk | 0;
-            }
-
-            offset = (this.HEAP32[12 >> 2] | 0) + ((alignment | 0) - (1 | 0) | 0) | 0 | 0 | 0 & ~(alignment - (1 | 0)) | 0;
-            top = (offset | 0) + (chunkSize | 0) | 0;
-            ptr = (offset | 0) + (4 | 0) | 0;
-            this.setHeadSize(ptr | 0, chunkSize | 0);
-            this.setInuse((ptr | 0) + (4 | 0) | 0);
-            this.setFoot(ptr | 0, chunkSize | 0);
-            this.HEAP32[12 >> 2] = (top | 0) + (4 | 0) | 0;
-            offset = (offset | 0) + (8 | 0) | 0 | 0 | 0;
-            ptr = offset | 0 | 0;
-
-            while ((ptr | 0) < (top | 0) | 0) {
-                this.HEAPU32[ptr >> 2] = 0;
-                ptr = (ptr | 0) + (4 | 0) | 0 | 0 | 0;
-            }
-
-            return offset | 0;
-        }
-    }, {
-        key: "getFreeChunk",
-        value: function getFreeChunk(nbytes) {
-            nbytes = nbytes | 0;
-            var freeChunk = 0;
-            if ((this.HEAPU32[20 >> 2] | 0) > (0 | 0) | 0) {
-                freeChunk = this.findChunk(nbytes | 0) | 0;
-
-                if ((freeChunk | 0 | 0) > (0 | 0) | 0) {
-                    if ((freeChunk | 0) == (this.HEAPU32[24 >> 2] | 0) | 0) {
-                        this.HEAPU32[24 >> 2] = this.nextFree(freeChunk | 0) | 0;
-                    }
-
-                    if ((freeChunk | 0) == (this.HEAPU32[28 >> 2] | 0) | 0) {
-                        this.HEAPU32[28 >> 2] = 0;
-                    }
-
-                    this.HEAPU32[20 >> 2] = (this.HEAPU32[20 >> 2] | 0) - (1 | 0) | 0;
-                    this.setInuse(freeChunk | 0);
-                    this.HEAPU32[16 >> 2] = (this.HEAPU32[16 >> 2] | 0) - (this.getChunkSize(freeChunk | 0) | 0) | 0;
-                    return freeChunk | 0;
-                }
-            }
             return 0;
-        }
-    }, {
-        key: "setHeadSize",
-        value: function setHeadSize(ptr, s) {
-            ptr = ptr | 0;
-            s = s | 0;
-            this.HEAPU32[ptr >> 2] = (this.HEAPU32[ptr >> 2] | 0) & (7 | 0) | 0 | 0 | (s | 0) | 0;
-        }
-    }, {
-        key: "setInuse",
-        value: function setInuse(ptr) {
-            ptr = ptr | 0;
-            var chunkptr = 0;
-            chunkptr = (ptr | 0) - (4 | 0) | 0;
-            this.HEAPU32[chunkptr >> 2] = this.HEAPU32[chunkptr >> 2] | 0 | (1 | 0) | 0;
-        }
-    }, {
-        key: "setFoot",
-        value: function setFoot(ptr, s) {
-            ptr = ptr | 0;
-            s = s | 0;
-            var size = 0;
-            var chunkptr = 0;
-            size = this.HEAPU32[ptr >> 2] | 0;
-            chunkptr = (ptr | 0) + (size | 0) | 0;
-            this.HEAPU32[chunkptr >> 2] = s | 0;
-        }
-    }, {
-        key: "nextFree",
-        value: function nextFree(ptr) {
-            ptr = ptr | 0;
-            return this.HEAP32[ptr >> 2] | 0 | 0 | 0;
-        }
-    }, {
-        key: "findChunk",
-        value: function findChunk(nbytes) {
-            nbytes = nbytes | 0;
-            var chunk = 0;
-            chunk = this.HEAPU32[24 >> 2] | 0;
-
-            while ((chunk | 0) != 0 | 0) {
-                if ((this.getChunkSize(chunk | 0) | 0) == (nbytes | 0) | 0) {
-                    return chunk | 0;
-                }
-
-                chunk = this.HEAPU32[chunk >> 2] | 0 | 0;
-            }
-            return 0;
-        }
-    }, {
-        key: "getFreeChunk",
-        value: function getFreeChunk(nbytes) {
-            nbytes = nbytes | 0;
-            var freeChunk = 0;
-            if ((this.HEAPU32[20 >> 2] | 0) > (0 | 0) | 0) {
-                freeChunk = this.findChunk(nbytes | 0) | 0;
-
-                if ((freeChunk | 0 | 0) > (0 | 0) | 0) {
-                    if ((freeChunk | 0) == (HEAPU32[24 >> 2] | 0) | 0) {
-                        this.HEAPU32[24 >> 2] = this.nextFree(freeChunk | 0) | 0;
-                    }
-
-                    if ((freeChunk | 0) == (this.HEAPU32[28 >> 2] | 0) | 0) {
-                        this.HEAPU32[28 >> 2] = 0;
-                    }
-
-                    this.HEAPU32[20 >> 2] = (this.HEAPU32[20 >> 2] | 0) - (1 | 0) | 0;
-                    this.setInuse(freeChunk | 0);
-                    this.HEAPU32[16 >> 2] = (this.HEAPU32[16 >> 2] | 0) - (this.getChunkSize(freeChunk | 0) | 0) | 0;
-                    return freeChunk | 0;
-                }
-            }
-            return 0;
-        }
-    }, {
-        key: "getChunkSize",
-        value: function getChunkSize(ptr) {
-            ptr = ptr | 0;
-            var chunkptr = 0;
-            chunkptr = (ptr | 0) - (4 | 0) | 0;
-            return (this.HEAPU32[chunkptr >> 2] | 0) & (-2 | 0) | 0;
         }
     }]);
     return Heap;
@@ -283,7 +147,10 @@ var Bootstrapper = function () {
                     ABORT: 0,
                     abortStackOverflow: function abortStackOverflow() {},
                     _malloc: heap.malloc.bind(heap),
-                    _printf: console.log
+                    _printf: console.log,
+                    _sinf: Math.sin,
+                    _atan2f: Math.atan2,
+                    _acosf: Math.acos
                 },
                 global: {
                     NaN: 0,
@@ -792,24 +659,164 @@ var Vec4 = function () {
     return Vec4;
 }();
 
-var Quat4 = function Quat4() {
-    var axis = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vec3();
-    var angle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.0;
-    classCallCheck(this, Quat4);
+var Quat4 = function () {
+    function Quat4() {
+        var axis = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vec3();
+        var angle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.0;
+        classCallCheck(this, Quat4);
 
-    this.axis = new Vec3();
-    this.w = angle;
+        this.axis = new Vec3();
+        this.w = angle;
 
-    var a = angle * (Math.PI / 180.0);
+        var a = angle * (Math.PI / 180.0);
 
-    var sinHalfAngle = Math.sin(a / 2.0);
-    var cosHalfAngle = Math.cos(a / 2.0);
+        var sinHalfAngle = Math.sin(a / 2.0);
+        var cosHalfAngle = Math.cos(a / 2.0);
 
-    this.axis.x = axis.x * sinHalfAngle;
-    this.axis.y = axis.y * sinHalfAngle;
-    this.axis.z = axis.z * sinHalfAngle;
-    this.w = cosHalfAngle;
-};
+        this.axis.x = axis.x * sinHalfAngle;
+        this.axis.y = axis.y * sinHalfAngle;
+        this.axis.z = axis.z * sinHalfAngle;
+        this.w = cosHalfAngle;
+    }
+
+    createClass(Quat4, [{
+        key: 'mulQuat',
+        value: function mulQuat(q) {
+            // load data into memory
+            heap.HEAPF32[0] = this.axis.x;
+            heap.HEAPF32[1] = this.axis.y;
+            heap.HEAPF32[2] = this.axis.z;
+            heap.HEAPF32[3] = this.w;
+
+            heap.HEAPF32[4] = q.axis.x;
+            heap.HEAPF32[5] = q.axis.y;
+            heap.HEAPF32[6] = q.axis.z;
+            heap.HEAPF32[7] = q.w;
+
+            // execute
+            exports.__Native._mathgasm_quaternion_mul_quat(0, 16, 32);
+
+            var result = new Quat4();
+            result.w = heap.HEAPF32[11];
+            result.axis.x = heap.HEAPF32[8];
+            result.axis.y = heap.HEAPF32[9];
+            result.axis.z = heap.HEAPF32[10];
+            return result;
+        }
+    }, {
+        key: 'mulVec',
+        value: function mulVec(v) {
+            // load data into memory
+            heap.HEAPF32[0] = this.axis.x;
+            heap.HEAPF32[1] = this.axis.y;
+            heap.HEAPF32[2] = this.axis.z;
+            heap.HEAPF32[3] = this.w;
+
+            heap.HEAPF32[4] = v.x;
+            heap.HEAPF32[5] = v.y;
+            heap.HEAPF32[6] = v.z;
+
+            // execute
+            exports.__Native._mathgasm_quaternion_mul_vec(0, 16, 28);
+
+            return new Vec3(heap.HEAPF32[7], heap.HEAPF32[8], heap.HEAPF32[9]);
+        }
+    }, {
+        key: 'slerp',
+        value: function slerp(q, dt) {
+            // load data into memory
+            heap.HEAPF32[0] = this.axis.x;
+            heap.HEAPF32[1] = this.axis.y;
+            heap.HEAPF32[2] = this.axis.z;
+            heap.HEAPF32[3] = this.w;
+
+            heap.HEAPF32[4] = q.axis.x;
+            heap.HEAPF32[5] = q.axis.y;
+            heap.HEAPF32[6] = q.axis.z;
+            heap.HEAPF32[7] = q.w;
+
+            heap.HEAPF32[8] = dt;
+
+            // execute
+            exports.__Native._mathgasm_quaternion_slerp(0, 16, 32, 36);
+
+            var result = new Quat4();
+            result.axis.x = heap.HEAPF32[9];
+            result.axis.y = heap.HEAPF32[10];
+            result.axis.z = heap.HEAPF32[11];
+            result.w = heap.HEAPF32[12];
+            return result;
+        }
+    }, {
+        key: 'normalized',
+        value: function normalized() {
+            // load data into memory
+            heap.HEAPF32[0] = this.axis.x;
+            heap.HEAPF32[1] = this.axis.y;
+            heap.HEAPF32[2] = this.axis.z;
+            heap.HEAPF32[3] = this.w;
+
+            // execute
+            exports.__Native._mathgasm_quaternion_normalize(0, 16);
+
+            var result = new Quat4();
+            result.axis.x = heap.HEAPF32[4];
+            result.axis.y = heap.HEAPF32[5];
+            result.axis.z = heap.HEAPF32[6];
+            result.w = heap.HEAPF32[7];
+            return result;
+        }
+    }, {
+        key: 'toAxisAngle',
+        value: function toAxisAngle() {
+            // load data into memory
+            heap.HEAPF32[0] = this.axis.x;
+            heap.HEAPF32[1] = this.axis.y;
+            heap.HEAPF32[2] = this.axis.z;
+            heap.HEAPF32[3] = this.w;
+
+            // execute
+            exports.__Native._mathgasm_quaternion_to_axis_angle(0, 16);
+
+            return {
+                axis: new Vec3(heap.HEAPF32[4], heap.HEAPF32[5], heap.HEAPF32[6]),
+                angle: heap.HEAPF32[7]
+            };
+        }
+    }, {
+        key: 'fromRotationMatrix',
+        value: function fromRotationMatrix(m) {
+            // load data into memory
+            heap.HEAPF32[0] = m.m00;
+            heap.HEAPF32[1] = m.m01;
+            heap.HEAPF32[2] = m.m02;
+            heap.HEAPF32[3] = m.m03;
+            heap.HEAPF32[4] = m.m10;
+            heap.HEAPF32[5] = m.m11;
+            heap.HEAPF32[6] = m.m12;
+            heap.HEAPF32[7] = m.m13;
+            heap.HEAPF32[8] = m.m20;
+            heap.HEAPF32[9] = m.m21;
+            heap.HEAPF32[10] = m.m22;
+            heap.HEAPF32[11] = m.m23;
+            heap.HEAPF32[12] = m.m30;
+            heap.HEAPF32[13] = m.m31;
+            heap.HEAPF32[14] = m.m32;
+            heap.HEAPF32[15] = m.m33;
+
+            // execute
+            exports.__Native._mathgasm_quaternion_set_from_matrix(0, 64);
+
+            var result = new Quat4();
+            result.axis.x = heap.HEAPF32[16];
+            result.axis.y = heap.HEAPF32[17];
+            result.axis.z = heap.HEAPF32[18];
+            result.w = heap.HEAPF32[19];
+            return result;
+        }
+    }]);
+    return Quat4;
+}();
 
 var Mat4 = function () {
     // byte size = 
