@@ -11,12 +11,12 @@ class Vec4 {
         // this.byteSize = 16;
     }
 
-    add( v ) {
+    static add( u, v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = u.x;
+        Heap.HEAPF32[ 1 ] = u.y;
+        Heap.HEAPF32[ 2 ] = u.z;
+        Heap.HEAPF32[ 3 ] = u.w;
 
         Heap.HEAPF32[ 4 ] = v.x;
         Heap.HEAPF32[ 5 ] = v.y;
@@ -30,12 +30,16 @@ class Vec4 {
         return new Vec4( Heap.HEAPF32[ 8 ], Heap.HEAPF32[ 9 ], Heap.HEAPF32[ 10 ], Heap.HEAPF32[ 11 ] );
     }
 
-    sub( v ) {
+    add( v ) {
+        return Vec4.add( this, v );
+    }
+    
+    static sub( u, v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = u.x;
+        Heap.HEAPF32[ 1 ] = u.y;
+        Heap.HEAPF32[ 2 ] = u.z;
+        Heap.HEAPF32[ 3 ] = u.w;
 
         Heap.HEAPF32[ 4 ] = -v.x;
         Heap.HEAPF32[ 5 ] = -v.y;
@@ -49,12 +53,16 @@ class Vec4 {
         return new Vec4( Heap.HEAPF32[ 8 ], Heap.HEAPF32[ 9 ], Heap.HEAPF32[ 10 ], Heap.HEAPF32[ 11 ] );
     }
 
-    mul( x = 1, y = x, z = x, w = x ) {
+    sub( v ) {
+        return Vec4.sub( this, v );
+    }
+
+    static mul( v, x, y, z, w ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = v.x;
+        Heap.HEAPF32[ 1 ] = v.y;
+        Heap.HEAPF32[ 2 ] = v.z;
+        Heap.HEAPF32[ 3 ] = v.w;
 
         Heap.HEAPF32[ 4 ] = x;
         Heap.HEAPF32[ 5 ] = y;
@@ -68,12 +76,16 @@ class Vec4 {
         return new Vec4( Heap.HEAPF32[ 8 ], Heap.HEAPF32[ 9 ], Heap.HEAPF32[ 10 ], Heap.HEAPF32[ 11 ] );
     }
 
-    length() {
+    mul( x = 1, y = x, z = x, w = x ) {
+        return Vec4.mul( this, x, y, z, w );
+    }
+
+    static length( v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = v.x;
+        Heap.HEAPF32[ 1 ] = v.y;
+        Heap.HEAPF32[ 2 ] = v.z;
+        Heap.HEAPF32[ 3 ] = v.w;
         
         // execute
         __Native._mathgasm_float4_length( 0, 16 ); 
@@ -82,12 +94,16 @@ class Vec4 {
         return Heap.HEAPF32[ 4 ];
     }
 
-    dot( v ) {
+    length() {
+        return Vec4.length( this );
+    }
+
+    static dot( u, v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = u.x;
+        Heap.HEAPF32[ 1 ] = u.y;
+        Heap.HEAPF32[ 2 ] = u.z;
+        Heap.HEAPF32[ 3 ] = u.w;
 
         Heap.HEAPF32[ 4 ] = v.x;
         Heap.HEAPF32[ 5 ] = v.y;
@@ -101,12 +117,16 @@ class Vec4 {
         return Heap.HEAPF32[ 8 ];
     }
 
-    normalized() {
+    dot( v ) {
+        return Vec4.dot( this, v );
+    }
+
+    static normalized( v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = v.x;
+        Heap.HEAPF32[ 1 ] = v.y;
+        Heap.HEAPF32[ 2 ] = v.z;
+        Heap.HEAPF32[ 3 ] = v.w;
 
         // execute
         __Native._mathgasm_float4_normalize( 0, 16 ); 
@@ -115,12 +135,16 @@ class Vec4 {
         return new Vec4( Heap.HEAPF32[ 4 ], Heap.HEAPF32[ 5 ], Heap.HEAPF32[ 6 ], Heap.HEAPF32[ 7 ] );
     }
 
-    lerped( v, dt ) {
+    normalized() {
+        return Vec4.normalized( this );
+    }
+
+    static lerped( u, v, dt ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = u.x;
+        Heap.HEAPF32[ 1 ] = u.y;
+        Heap.HEAPF32[ 2 ] = u.z;
+        Heap.HEAPF32[ 3 ] = u.w;
 
         Heap.HEAPF32[ 4 ] = v.x;
         Heap.HEAPF32[ 5 ] = v.y;
@@ -134,6 +158,10 @@ class Vec4 {
 
         // copy result
         return new Vec4( Heap.HEAPF32[ 9 ], Heap.HEAPF32[ 10 ], Heap.HEAPF32[ 11 ], Heap.HEAPF32[ 12 ] );
+    }
+
+    lerped( v, dt ) {
+        return Vec4.lerped( this, v, dt );
     }
 }
 

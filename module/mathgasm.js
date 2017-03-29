@@ -1,5 +1,5 @@
 // COMPILE TIME DEFINITIONS (Generated via gulp) 
-var __DATE__ = "Wed Mar 29 2017 13:02:57 GMT+0200 (CEST)"; 
+var __DATE__ = "Wed Mar 29 2017 15:07:04 GMT+0200 (CEST)"; 
 // END COMPILE TIME DEFINITIONS 
  
 console.log('Compiled at', __DATE__);
@@ -154,11 +154,54 @@ var Vec2 = function () {
     createClass(Vec2, [{
         key: 'add',
         value: function add(v) {
+            return Vec2.add(this, v);
+        }
+    }, {
+        key: 'sub',
+        value: function sub(v) {
+            return Vec2.sub(this, v);
+        }
+    }, {
+        key: 'mul',
+        value: function mul() {
+            var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+            var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
+
+            return Vec2.mul(this, x, y);
+        }
+    }, {
+        key: 'mad',
+        value: function mad(v, u) {
+            return Vec2.mad(this, v, u);
+        }
+    }, {
+        key: 'length',
+        value: function length() {
+            return Vec2.length(this);
+        }
+    }, {
+        key: 'dot',
+        value: function dot(v) {
+            return Vec2.dot(this, v);
+        }
+    }, {
+        key: 'normalized',
+        value: function normalized() {
+            return Vec2.normalized(this);
+        }
+    }, {
+        key: 'lerped',
+        value: function lerped(v, dt) {
+            return Vec2.lerped(this, v, dt);
+        }
+    }], [{
+        key: 'add',
+        value: function add(v, w) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = v.x;
-            heap.HEAPF32[3] = v.y;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
+            heap.HEAPF32[2] = w.x;
+            heap.HEAPF32[3] = w.y;
 
             // execute
             exports.__Native._mathgasm_float2_add(0, 8, 16);
@@ -168,12 +211,12 @@ var Vec2 = function () {
         }
     }, {
         key: 'sub',
-        value: function sub(v) {
+        value: function sub(v, w) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = -v.x;
-            heap.HEAPF32[3] = -v.y;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
+            heap.HEAPF32[2] = -w.x;
+            heap.HEAPF32[3] = -w.y;
 
             // execute
             exports.__Native._mathgasm_float2_add(0, 8, 16);
@@ -183,13 +226,10 @@ var Vec2 = function () {
         }
     }, {
         key: 'mul',
-        value: function mul() {
-            var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-            var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
-
+        value: function mul(v, x, y) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
             heap.HEAPF32[2] = x;
             heap.HEAPF32[3] = y;
 
@@ -201,10 +241,10 @@ var Vec2 = function () {
         }
     }, {
         key: 'mad',
-        value: function mad(v, u) {
+        value: function mad(w, v, u) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[0] = w.x;
+            heap.HEAPF32[1] = w.y;
             heap.HEAPF32[2] = v.x;
             heap.HEAPF32[3] = v.y;
             heap.HEAPF32[4] = u.x;
@@ -218,10 +258,10 @@ var Vec2 = function () {
         }
     }, {
         key: 'length',
-        value: function length() {
+        value: function length(v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
 
             // execute
             exports.__Native._mathgasm_float2_length(0, 8);
@@ -231,10 +271,10 @@ var Vec2 = function () {
         }
     }, {
         key: 'dot',
-        value: function dot(v) {
+        value: function dot(u, v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
             heap.HEAPF32[2] = v.x;
             heap.HEAPF32[3] = v.y;
 
@@ -246,10 +286,10 @@ var Vec2 = function () {
         }
     }, {
         key: 'normalized',
-        value: function normalized() {
+        value: function normalized(v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
 
             // execute
             exports.__Native._mathgasm_float2_normalize(0, 8);
@@ -259,10 +299,10 @@ var Vec2 = function () {
         }
     }, {
         key: 'lerped',
-        value: function lerped(v, dt) {
+        value: function lerped(u, v, dt) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
             heap.HEAPF32[2] = v.x;
             heap.HEAPF32[3] = v.y;
             heap.HEAPF32[4] = dt;
@@ -291,10 +331,64 @@ var Vec3 = function () {
     createClass(Vec3, [{
         key: 'add',
         value: function add(v) {
+            return Vec3.add(this, v);
+        }
+    }, {
+        key: 'sub',
+        value: function sub(v) {
+            return Vec3.sub(this, v);
+        }
+    }, {
+        key: 'mul',
+        value: function mul() {
+            var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+            var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
+            var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : x;
+
+            return Vec3.mul(this, x, y, z);
+        }
+    }, {
+        key: 'mad',
+        value: function mad(v, u) {
+            return Vec3.mad(this, v, u);
+        }
+    }, {
+        key: 'length',
+        value: function length() {
+            return Vec3.length(this);
+        }
+    }, {
+        key: 'dot',
+        value: function dot(v) {
+            return Vec3.dot(this, v);
+        }
+    }, {
+        key: 'normalized',
+        value: function normalized() {
+            return Vec3.normalized(this);
+        }
+    }, {
+        key: 'cross',
+        value: function cross(v) {
+            return Vec3.cross(this, v);
+        }
+    }, {
+        key: 'reflect',
+        value: function reflect(n) {
+            return Vec3.reflect(this, n);
+        }
+    }, {
+        key: 'lerped',
+        value: function lerped(v, dt) {
+            return Vec3.lerped(this, v, dt);
+        }
+    }], [{
+        key: 'add',
+        value: function add(u, v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
+            heap.HEAPF32[2] = u.z;
 
             heap.HEAPF32[3] = v.x;
             heap.HEAPF32[4] = v.y;
@@ -308,11 +402,11 @@ var Vec3 = function () {
         }
     }, {
         key: 'sub',
-        value: function sub(v) {
+        value: function sub(u, v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
+            heap.HEAPF32[2] = u.z;
 
             heap.HEAPF32[3] = -v.x;
             heap.HEAPF32[4] = -v.y;
@@ -326,15 +420,11 @@ var Vec3 = function () {
         }
     }, {
         key: 'mul',
-        value: function mul() {
-            var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-            var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
-            var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : x;
-
+        value: function mul(v, x, y, z) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
+            heap.HEAPF32[2] = v.z;
 
             heap.HEAPF32[3] = x;
             heap.HEAPF32[4] = y;
@@ -348,11 +438,11 @@ var Vec3 = function () {
         }
     }, {
         key: 'mad',
-        value: function mad(v, u) {
+        value: function mad(w, v, u) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = w.x;
+            heap.HEAPF32[1] = w.y;
+            heap.HEAPF32[2] = w.z;
 
             heap.HEAPF32[3] = v.x;
             heap.HEAPF32[4] = v.y;
@@ -370,11 +460,11 @@ var Vec3 = function () {
         }
     }, {
         key: 'length',
-        value: function length() {
+        value: function length(v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
+            heap.HEAPF32[2] = v.z;
 
             // execute
             exports.__Native._mathgasm_float3_length(0, 12);
@@ -384,11 +474,11 @@ var Vec3 = function () {
         }
     }, {
         key: 'dot',
-        value: function dot(v) {
+        value: function dot(u, v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
+            heap.HEAPF32[2] = u.z;
             heap.HEAPF32[3] = v.x;
             heap.HEAPF32[4] = v.y;
             heap.HEAPF32[5] = v.z;
@@ -401,11 +491,11 @@ var Vec3 = function () {
         }
     }, {
         key: 'normalized',
-        value: function normalized() {
+        value: function normalized(v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
+            heap.HEAPF32[2] = v.z;
 
             // execute
             exports.__Native._mathgasm_float3_normalize(0, 12);
@@ -415,11 +505,11 @@ var Vec3 = function () {
         }
     }, {
         key: 'cross',
-        value: function cross(v) {
+        value: function cross(u, v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
+            heap.HEAPF32[2] = u.z;
 
             heap.HEAPF32[3] = v.x;
             heap.HEAPF32[4] = v.y;
@@ -433,11 +523,11 @@ var Vec3 = function () {
         }
     }, {
         key: 'reflect',
-        value: function reflect(n) {
+        value: function reflect(v, n) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
+            heap.HEAPF32[2] = v.z;
 
             heap.HEAPF32[3] = n.x;
             heap.HEAPF32[4] = n.y;
@@ -451,11 +541,11 @@ var Vec3 = function () {
         }
     }, {
         key: 'lerped',
-        value: function lerped(v, dt) {
+        value: function lerped(u, v, dt) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
+            heap.HEAPF32[2] = u.z;
 
             heap.HEAPF32[3] = v.x;
             heap.HEAPF32[4] = v.y;
@@ -488,11 +578,51 @@ var Vec4 = function () {
     createClass(Vec4, [{
         key: 'add',
         value: function add(v) {
+            return Vec4.add(this, v);
+        }
+    }, {
+        key: 'sub',
+        value: function sub(v) {
+            return Vec4.sub(this, v);
+        }
+    }, {
+        key: 'mul',
+        value: function mul() {
+            var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+            var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
+            var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : x;
+            var w = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : x;
+
+            return Vec4.mul(this, x, y, z, w);
+        }
+    }, {
+        key: 'length',
+        value: function length() {
+            return Vec4.length(this);
+        }
+    }, {
+        key: 'dot',
+        value: function dot(v) {
+            return Vec4.dot(this, v);
+        }
+    }, {
+        key: 'normalized',
+        value: function normalized() {
+            return Vec4.normalized(this);
+        }
+    }, {
+        key: 'lerped',
+        value: function lerped(v, dt) {
+            return Vec4.lerped(this, v, dt);
+        }
+    }], [{
+        key: 'add',
+        value: function add(u, v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
+            heap.HEAPF32[2] = u.z;
+            heap.HEAPF32[3] = u.w;
 
             heap.HEAPF32[4] = v.x;
             heap.HEAPF32[5] = v.y;
@@ -507,12 +637,12 @@ var Vec4 = function () {
         }
     }, {
         key: 'sub',
-        value: function sub(v) {
+        value: function sub(u, v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
+            heap.HEAPF32[2] = u.z;
+            heap.HEAPF32[3] = u.w;
 
             heap.HEAPF32[4] = -v.x;
             heap.HEAPF32[5] = -v.y;
@@ -527,17 +657,12 @@ var Vec4 = function () {
         }
     }, {
         key: 'mul',
-        value: function mul() {
-            var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-            var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
-            var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : x;
-            var w = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : x;
-
+        value: function mul(v, x, y, z, w) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
+            heap.HEAPF32[2] = v.z;
+            heap.HEAPF32[3] = v.w;
 
             heap.HEAPF32[4] = x;
             heap.HEAPF32[5] = y;
@@ -552,12 +677,12 @@ var Vec4 = function () {
         }
     }, {
         key: 'length',
-        value: function length() {
+        value: function length(v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
+            heap.HEAPF32[2] = v.z;
+            heap.HEAPF32[3] = v.w;
 
             // execute
             exports.__Native._mathgasm_float4_length(0, 16);
@@ -567,12 +692,12 @@ var Vec4 = function () {
         }
     }, {
         key: 'dot',
-        value: function dot(v) {
+        value: function dot(u, v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
+            heap.HEAPF32[2] = u.z;
+            heap.HEAPF32[3] = u.w;
 
             heap.HEAPF32[4] = v.x;
             heap.HEAPF32[5] = v.y;
@@ -587,12 +712,12 @@ var Vec4 = function () {
         }
     }, {
         key: 'normalized',
-        value: function normalized() {
+        value: function normalized(v) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = v.x;
+            heap.HEAPF32[1] = v.y;
+            heap.HEAPF32[2] = v.z;
+            heap.HEAPF32[3] = v.w;
 
             // execute
             exports.__Native._mathgasm_float4_normalize(0, 16);
@@ -602,12 +727,12 @@ var Vec4 = function () {
         }
     }, {
         key: 'lerped',
-        value: function lerped(v, dt) {
+        value: function lerped(u, v, dt) {
             // load vectors into memory
-            heap.HEAPF32[0] = this.x;
-            heap.HEAPF32[1] = this.y;
-            heap.HEAPF32[2] = this.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = u.x;
+            heap.HEAPF32[1] = u.y;
+            heap.HEAPF32[2] = u.z;
+            heap.HEAPF32[3] = u.w;
 
             heap.HEAPF32[4] = v.x;
             heap.HEAPF32[5] = v.y;
@@ -649,11 +774,41 @@ var Quat4 = function () {
     createClass(Quat4, [{
         key: 'mulQuat',
         value: function mulQuat(q) {
+            return Quat4.mulQuat(this, q);
+        }
+    }, {
+        key: 'mulVec',
+        value: function mulVec(v) {
+            return Quat4.mulVec(this, v);
+        }
+    }, {
+        key: 'slerp',
+        value: function slerp(q, dt) {
+            return Quat4.slerp(this, q, dt);
+        }
+    }, {
+        key: 'normalized',
+        value: function normalized() {
+            return Quat4.normalized(this);
+        }
+    }, {
+        key: 'toAxisAngle',
+        value: function toAxisAngle() {
+            return Quat4.toAxisAngle(this);
+        }
+    }, {
+        key: 'fromRotationMatrix',
+        value: function fromRotationMatrix(m) {
+            return Quat4.fromRotationMatrix(m);
+        }
+    }], [{
+        key: 'mulQuat',
+        value: function mulQuat(p, q) {
             // load data into memory
-            heap.HEAPF32[0] = this.axis.x;
-            heap.HEAPF32[1] = this.axis.y;
-            heap.HEAPF32[2] = this.axis.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = p.axis.x;
+            heap.HEAPF32[1] = p.axis.y;
+            heap.HEAPF32[2] = p.axis.z;
+            heap.HEAPF32[3] = p.w;
 
             heap.HEAPF32[4] = q.axis.x;
             heap.HEAPF32[5] = q.axis.y;
@@ -672,12 +827,12 @@ var Quat4 = function () {
         }
     }, {
         key: 'mulVec',
-        value: function mulVec(v) {
+        value: function mulVec(q, v) {
             // load data into memory
-            heap.HEAPF32[0] = this.axis.x;
-            heap.HEAPF32[1] = this.axis.y;
-            heap.HEAPF32[2] = this.axis.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = q.axis.x;
+            heap.HEAPF32[1] = q.axis.y;
+            heap.HEAPF32[2] = q.axis.z;
+            heap.HEAPF32[3] = q.w;
 
             heap.HEAPF32[4] = v.x;
             heap.HEAPF32[5] = v.y;
@@ -690,12 +845,12 @@ var Quat4 = function () {
         }
     }, {
         key: 'slerp',
-        value: function slerp(q, dt) {
+        value: function slerp(p, q, dt) {
             // load data into memory
-            heap.HEAPF32[0] = this.axis.x;
-            heap.HEAPF32[1] = this.axis.y;
-            heap.HEAPF32[2] = this.axis.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = p.axis.x;
+            heap.HEAPF32[1] = p.axis.y;
+            heap.HEAPF32[2] = p.axis.z;
+            heap.HEAPF32[3] = p.w;
 
             heap.HEAPF32[4] = q.axis.x;
             heap.HEAPF32[5] = q.axis.y;
@@ -716,12 +871,12 @@ var Quat4 = function () {
         }
     }, {
         key: 'normalized',
-        value: function normalized() {
+        value: function normalized(q) {
             // load data into memory
-            heap.HEAPF32[0] = this.axis.x;
-            heap.HEAPF32[1] = this.axis.y;
-            heap.HEAPF32[2] = this.axis.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = q.axis.x;
+            heap.HEAPF32[1] = q.axis.y;
+            heap.HEAPF32[2] = q.axis.z;
+            heap.HEAPF32[3] = q.w;
 
             // execute
             exports.__Native._mathgasm_quaternion_normalize(0, 16);
@@ -735,12 +890,12 @@ var Quat4 = function () {
         }
     }, {
         key: 'toAxisAngle',
-        value: function toAxisAngle() {
+        value: function toAxisAngle(q) {
             // load data into memory
-            heap.HEAPF32[0] = this.axis.x;
-            heap.HEAPF32[1] = this.axis.y;
-            heap.HEAPF32[2] = this.axis.z;
-            heap.HEAPF32[3] = this.w;
+            heap.HEAPF32[0] = q.axis.x;
+            heap.HEAPF32[1] = q.axis.y;
+            heap.HEAPF32[2] = q.axis.z;
+            heap.HEAPF32[3] = q.w;
 
             // execute
             exports.__Native._mathgasm_quaternion_to_axis_angle(0, 16);
@@ -815,23 +970,58 @@ var Mat4 = function () {
     createClass(Mat4, [{
         key: 'mulMat',
         value: function mulMat(m) {
+            return Mat4.mulMat(this, m);
+        }
+    }, {
+        key: 'mulVec',
+        value: function mulVec(v) {
+            return Mat4.mulVec(this, v);
+        }
+    }, {
+        key: 'mulScalar',
+        value: function mulScalar(s) {
+            return Mat4.mulScalar(this, s);
+        }
+    }, {
+        key: 'invertedTR',
+        value: function invertedTR() {
+            return Mat4.invertedTR(this);
+        }
+    }, {
+        key: 'inverted',
+        value: function inverted() {
+            return Mat4.inverted(this);
+        }
+    }, {
+        key: 'setFromQuaternion',
+        value: function setFromQuaternion(q) {
+            return Mat4.setFromQuaternion(q);
+        }
+    }, {
+        key: 'decompose',
+        value: function decompose() {
+            return Mat4.decompose(this);
+        }
+    }], [{
+        key: 'mulMat',
+        value: function mulMat(n, m) {
             // load matrices into memory
-            heap.HEAPF32[0] = this.m00;
-            heap.HEAPF32[1] = this.m01;
-            heap.HEAPF32[2] = this.m02;
-            heap.HEAPF32[3] = this.m03;
-            heap.HEAPF32[4] = this.m10;
-            heap.HEAPF32[5] = this.m11;
-            heap.HEAPF32[6] = this.m12;
-            heap.HEAPF32[7] = this.m13;
-            heap.HEAPF32[8] = this.m20;
-            heap.HEAPF32[9] = this.m21;
-            heap.HEAPF32[10] = this.m22;
-            heap.HEAPF32[11] = this.m23;
-            heap.HEAPF32[12] = this.m30;
-            heap.HEAPF32[13] = this.m31;
-            heap.HEAPF32[14] = this.m32;
-            heap.HEAPF32[15] = this.m33;
+            heap.HEAPF32[0] = n.m00;
+            heap.HEAPF32[1] = n.m01;
+            heap.HEAPF32[2] = n.m02;
+            heap.HEAPF32[3] = n.m03;
+            heap.HEAPF32[4] = n.m10;
+            heap.HEAPF32[5] = n.m11;
+            heap.HEAPF32[6] = n.m12;
+            heap.HEAPF32[7] = n.m13;
+            heap.HEAPF32[8] = n.m20;
+            heap.HEAPF32[9] = n.m21;
+            heap.HEAPF32[10] = n.m22;
+            heap.HEAPF32[11] = n.m23;
+            heap.HEAPF32[12] = n.m30;
+            heap.HEAPF32[13] = n.m31;
+            heap.HEAPF32[14] = n.m32;
+            heap.HEAPF32[15] = n.m33;
 
             heap.HEAPF32[16] = m.m00;
             heap.HEAPF32[17] = m.m01;
@@ -857,24 +1047,24 @@ var Mat4 = function () {
         }
     }, {
         key: 'mulVec',
-        value: function mulVec(v) {
+        value: function mulVec(m, v) {
             // load data into memory
-            heap.HEAPF32[0] = this.m00;
-            heap.HEAPF32[1] = this.m01;
-            heap.HEAPF32[2] = this.m02;
-            heap.HEAPF32[3] = this.m03;
-            heap.HEAPF32[4] = this.m10;
-            heap.HEAPF32[5] = this.m11;
-            heap.HEAPF32[6] = this.m12;
-            heap.HEAPF32[7] = this.m13;
-            heap.HEAPF32[8] = this.m20;
-            heap.HEAPF32[9] = this.m21;
-            heap.HEAPF32[10] = this.m22;
-            heap.HEAPF32[11] = this.m23;
-            heap.HEAPF32[12] = this.m30;
-            heap.HEAPF32[13] = this.m31;
-            heap.HEAPF32[14] = this.m32;
-            heap.HEAPF32[15] = this.m33;
+            heap.HEAPF32[0] = m.m00;
+            heap.HEAPF32[1] = m.m01;
+            heap.HEAPF32[2] = m.m02;
+            heap.HEAPF32[3] = m.m03;
+            heap.HEAPF32[4] = m.m10;
+            heap.HEAPF32[5] = m.m11;
+            heap.HEAPF32[6] = m.m12;
+            heap.HEAPF32[7] = m.m13;
+            heap.HEAPF32[8] = m.m20;
+            heap.HEAPF32[9] = m.m21;
+            heap.HEAPF32[10] = m.m22;
+            heap.HEAPF32[11] = m.m23;
+            heap.HEAPF32[12] = m.m30;
+            heap.HEAPF32[13] = m.m31;
+            heap.HEAPF32[14] = m.m32;
+            heap.HEAPF32[15] = m.m33;
 
             heap.HEAPF32[16] = v.x;
             heap.HEAPF32[17] = v.y;
@@ -887,24 +1077,24 @@ var Mat4 = function () {
         }
     }, {
         key: 'mulScalar',
-        value: function mulScalar(s) {
+        value: function mulScalar(m, s) {
             // load data into memory
-            heap.HEAPF32[0] = this.m00;
-            heap.HEAPF32[1] = this.m01;
-            heap.HEAPF32[2] = this.m02;
-            heap.HEAPF32[3] = this.m03;
-            heap.HEAPF32[4] = this.m10;
-            heap.HEAPF32[5] = this.m11;
-            heap.HEAPF32[6] = this.m12;
-            heap.HEAPF32[7] = this.m13;
-            heap.HEAPF32[8] = this.m20;
-            heap.HEAPF32[9] = this.m21;
-            heap.HEAPF32[10] = this.m22;
-            heap.HEAPF32[11] = this.m23;
-            heap.HEAPF32[12] = this.m30;
-            heap.HEAPF32[13] = this.m31;
-            heap.HEAPF32[14] = this.m32;
-            heap.HEAPF32[15] = this.m33;
+            heap.HEAPF32[0] = m.m00;
+            heap.HEAPF32[1] = m.m01;
+            heap.HEAPF32[2] = m.m02;
+            heap.HEAPF32[3] = m.m03;
+            heap.HEAPF32[4] = m.m10;
+            heap.HEAPF32[5] = m.m11;
+            heap.HEAPF32[6] = m.m12;
+            heap.HEAPF32[7] = m.m13;
+            heap.HEAPF32[8] = m.m20;
+            heap.HEAPF32[9] = m.m21;
+            heap.HEAPF32[10] = m.m22;
+            heap.HEAPF32[11] = m.m23;
+            heap.HEAPF32[12] = m.m30;
+            heap.HEAPF32[13] = m.m31;
+            heap.HEAPF32[14] = m.m32;
+            heap.HEAPF32[15] = m.m33;
 
             heap.HEAPF32[16] = s;
 
@@ -915,24 +1105,24 @@ var Mat4 = function () {
         }
     }, {
         key: 'invertedTR',
-        value: function invertedTR() {
+        value: function invertedTR(m) {
             // load data into memory
-            heap.HEAPF32[0] = this.m00;
-            heap.HEAPF32[1] = this.m01;
-            heap.HEAPF32[2] = this.m02;
-            heap.HEAPF32[3] = this.m03;
-            heap.HEAPF32[4] = this.m10;
-            heap.HEAPF32[5] = this.m11;
-            heap.HEAPF32[6] = this.m12;
-            heap.HEAPF32[7] = this.m13;
-            heap.HEAPF32[8] = this.m20;
-            heap.HEAPF32[9] = this.m21;
-            heap.HEAPF32[10] = this.m22;
-            heap.HEAPF32[11] = this.m23;
-            heap.HEAPF32[12] = this.m30;
-            heap.HEAPF32[13] = this.m31;
-            heap.HEAPF32[14] = this.m32;
-            heap.HEAPF32[15] = this.m33;
+            heap.HEAPF32[0] = m.m00;
+            heap.HEAPF32[1] = m.m01;
+            heap.HEAPF32[2] = m.m02;
+            heap.HEAPF32[3] = m.m03;
+            heap.HEAPF32[4] = m.m10;
+            heap.HEAPF32[5] = m.m11;
+            heap.HEAPF32[6] = m.m12;
+            heap.HEAPF32[7] = m.m13;
+            heap.HEAPF32[8] = m.m20;
+            heap.HEAPF32[9] = m.m21;
+            heap.HEAPF32[10] = m.m22;
+            heap.HEAPF32[11] = m.m23;
+            heap.HEAPF32[12] = m.m30;
+            heap.HEAPF32[13] = m.m31;
+            heap.HEAPF32[14] = m.m32;
+            heap.HEAPF32[15] = m.m33;
 
             // execute
             exports.__Native._mathgasm_float4x4_inverse_tr(0, 64);
@@ -941,24 +1131,24 @@ var Mat4 = function () {
         }
     }, {
         key: 'inverted',
-        value: function inverted() {
+        value: function inverted(m) {
             // load data into memory
-            heap.HEAPF32[0] = this.m00;
-            heap.HEAPF32[1] = this.m01;
-            heap.HEAPF32[2] = this.m02;
-            heap.HEAPF32[3] = this.m03;
-            heap.HEAPF32[4] = this.m10;
-            heap.HEAPF32[5] = this.m11;
-            heap.HEAPF32[6] = this.m12;
-            heap.HEAPF32[7] = this.m13;
-            heap.HEAPF32[8] = this.m20;
-            heap.HEAPF32[9] = this.m21;
-            heap.HEAPF32[10] = this.m22;
-            heap.HEAPF32[11] = this.m23;
-            heap.HEAPF32[12] = this.m30;
-            heap.HEAPF32[13] = this.m31;
-            heap.HEAPF32[14] = this.m32;
-            heap.HEAPF32[15] = this.m33;
+            heap.HEAPF32[0] = m.m00;
+            heap.HEAPF32[1] = m.m01;
+            heap.HEAPF32[2] = m.m02;
+            heap.HEAPF32[3] = m.m03;
+            heap.HEAPF32[4] = m.m10;
+            heap.HEAPF32[5] = m.m11;
+            heap.HEAPF32[6] = m.m12;
+            heap.HEAPF32[7] = m.m13;
+            heap.HEAPF32[8] = m.m20;
+            heap.HEAPF32[9] = m.m21;
+            heap.HEAPF32[10] = m.m22;
+            heap.HEAPF32[11] = m.m23;
+            heap.HEAPF32[12] = m.m30;
+            heap.HEAPF32[13] = m.m31;
+            heap.HEAPF32[14] = m.m32;
+            heap.HEAPF32[15] = m.m33;
 
             // execute
             exports.__Native._mathgasm_float4x4_inverse(0, 64);
@@ -981,24 +1171,24 @@ var Mat4 = function () {
         }
     }, {
         key: 'decompose',
-        value: function decompose() {
+        value: function decompose(m) {
             // load data into memory
-            heap.HEAPF32[0] = this.m00;
-            heap.HEAPF32[1] = this.m01;
-            heap.HEAPF32[2] = this.m02;
-            heap.HEAPF32[3] = this.m03;
-            heap.HEAPF32[4] = this.m10;
-            heap.HEAPF32[5] = this.m11;
-            heap.HEAPF32[6] = this.m12;
-            heap.HEAPF32[7] = this.m13;
-            heap.HEAPF32[8] = this.m20;
-            heap.HEAPF32[9] = this.m21;
-            heap.HEAPF32[10] = this.m22;
-            heap.HEAPF32[11] = this.m23;
-            heap.HEAPF32[12] = this.m30;
-            heap.HEAPF32[13] = this.m31;
-            heap.HEAPF32[14] = this.m32;
-            heap.HEAPF32[15] = this.m33;
+            heap.HEAPF32[0] = m.m00;
+            heap.HEAPF32[1] = m.m01;
+            heap.HEAPF32[2] = m.m02;
+            heap.HEAPF32[3] = m.m03;
+            heap.HEAPF32[4] = m.m10;
+            heap.HEAPF32[5] = m.m11;
+            heap.HEAPF32[6] = m.m12;
+            heap.HEAPF32[7] = m.m13;
+            heap.HEAPF32[8] = m.m20;
+            heap.HEAPF32[9] = m.m21;
+            heap.HEAPF32[10] = m.m22;
+            heap.HEAPF32[11] = m.m23;
+            heap.HEAPF32[12] = m.m30;
+            heap.HEAPF32[13] = m.m31;
+            heap.HEAPF32[14] = m.m32;
+            heap.HEAPF32[15] = m.m33;
 
             // execute
             exports.__Native._mathgasm_float4x4_decompose(0, 64);

@@ -18,12 +18,12 @@ class Quat4 {
         this.w = cosHalfAngle;
     }
 
-    mulQuat( q ) {
+    static mulQuat( p, q ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ] = this.axis.x;
-        Heap.HEAPF32[ 1 ] = this.axis.y;
-        Heap.HEAPF32[ 2 ] = this.axis.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = p.axis.x;
+        Heap.HEAPF32[ 1 ] = p.axis.y;
+        Heap.HEAPF32[ 2 ] = p.axis.z;
+        Heap.HEAPF32[ 3 ] = p.w;
     
         Heap.HEAPF32[ 4 ] = q.axis.x;
         Heap.HEAPF32[ 5 ] = q.axis.y;
@@ -41,12 +41,16 @@ class Quat4 {
         return result;
     }
 
-    mulVec( v ) {
+    mulQuat( q ) {
+        return Quat4.mulQuat( this, q );
+    }
+
+    static mulVec( q, v ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ] = this.axis.x;
-        Heap.HEAPF32[ 1 ] = this.axis.y;
-        Heap.HEAPF32[ 2 ] = this.axis.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = q.axis.x;
+        Heap.HEAPF32[ 1 ] = q.axis.y;
+        Heap.HEAPF32[ 2 ] = q.axis.z;
+        Heap.HEAPF32[ 3 ] = q.w;
         
         Heap.HEAPF32[ 4 ] = v.x;
         Heap.HEAPF32[ 5 ] = v.y;
@@ -58,12 +62,16 @@ class Quat4 {
         return new Vec3( Heap.HEAPF32[ 7 ], Heap.HEAPF32[ 8 ], Heap.HEAPF32[ 9 ] );
     }
 
-    slerp( q, dt ) {
+    mulVec( v ) {
+        return Quat4.mulVec( this, v );
+    }
+
+    static slerp( p, q, dt ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ] = this.axis.x;
-        Heap.HEAPF32[ 1 ] = this.axis.y;
-        Heap.HEAPF32[ 2 ] = this.axis.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = p.axis.x;
+        Heap.HEAPF32[ 1 ] = p.axis.y;
+        Heap.HEAPF32[ 2 ] = p.axis.z;
+        Heap.HEAPF32[ 3 ] = p.w;
     
         Heap.HEAPF32[ 4 ] = q.axis.x;
         Heap.HEAPF32[ 5 ] = q.axis.y;
@@ -83,12 +91,16 @@ class Quat4 {
         return result;
     }
 
-    normalized() {
+    slerp( q, dt ) {
+        return Quat4.slerp( this, q, dt );
+    }
+
+    static normalized( q ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ] = this.axis.x;
-        Heap.HEAPF32[ 1 ] = this.axis.y;
-        Heap.HEAPF32[ 2 ] = this.axis.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = q.axis.x;
+        Heap.HEAPF32[ 1 ] = q.axis.y;
+        Heap.HEAPF32[ 2 ] = q.axis.z;
+        Heap.HEAPF32[ 3 ] = q.w;
 
         // execute
         __Native._mathgasm_quaternion_normalize( 0, 16 ); 
@@ -101,12 +113,16 @@ class Quat4 {
         return result;
     }
 
-    toAxisAngle() {
+    normalized() {
+        return Quat4.normalized( this );
+    }
+
+    static toAxisAngle( q ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ] = this.axis.x;
-        Heap.HEAPF32[ 1 ] = this.axis.y;
-        Heap.HEAPF32[ 2 ] = this.axis.z;
-        Heap.HEAPF32[ 3 ] = this.w;
+        Heap.HEAPF32[ 0 ] = q.axis.x;
+        Heap.HEAPF32[ 1 ] = q.axis.y;
+        Heap.HEAPF32[ 2 ] = q.axis.z;
+        Heap.HEAPF32[ 3 ] = q.w;
 
         // execute
         __Native._mathgasm_quaternion_to_axis_angle( 0, 16 ); 
@@ -119,7 +135,11 @@ class Quat4 {
         };
     }
 
-    fromRotationMatrix( m ) {
+    toAxisAngle() {
+        return Quat4.toAxisAngle( this );
+    }
+
+    static fromRotationMatrix( m ) {
         // load data into memory
         Heap.HEAPF32[ 0 ]  = m.m00;
         Heap.HEAPF32[ 1 ]  = m.m01;
@@ -147,6 +167,10 @@ class Quat4 {
         result.axis.z = Heap.HEAPF32[ 18 ];
         result.w = Heap.HEAPF32[ 19 ];
         return result;
+    }
+
+    fromRotationMatrix( m ) {
+        return Quat4.fromRotationMatrix( m );
     }
 }
 

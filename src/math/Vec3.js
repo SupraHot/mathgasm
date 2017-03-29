@@ -10,11 +10,11 @@ class Vec3 {
         // this.byteSize = 12;
     }
 
-    add( v ) {
+    static add( u, v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = u.x;
+        Heap.HEAPF32[ 1 ] = u.y;
+        Heap.HEAPF32[ 2 ] = u.z;
 
         Heap.HEAPF32[ 3 ] = v.x;
         Heap.HEAPF32[ 4 ] = v.y;
@@ -27,11 +27,15 @@ class Vec3 {
         return new Vec3( Heap.HEAPF32[ 6 ], Heap.HEAPF32[ 7 ], Heap.HEAPF32[ 8 ] );
     }
 
-    sub( v ) {
+    add( v ) {
+        return Vec3.add( this, v );
+    }
+
+    static sub( u, v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = u.x;
+        Heap.HEAPF32[ 1 ] = u.y;
+        Heap.HEAPF32[ 2 ] = u.z;
 
         Heap.HEAPF32[ 3 ] = -v.x;
         Heap.HEAPF32[ 4 ] = -v.y;
@@ -44,11 +48,15 @@ class Vec3 {
         return new Vec3( Heap.HEAPF32[ 6 ], Heap.HEAPF32[ 7 ], Heap.HEAPF32[ 8 ] );
     }
 
-    mul( x = 1, y = x, z = x ) {
+    sub( v ) {
+        return Vec3.sub( this, v );
+    }
+
+    static mul( v, x, y, z ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = v.x;
+        Heap.HEAPF32[ 1 ] = v.y;
+        Heap.HEAPF32[ 2 ] = v.z;
 
         Heap.HEAPF32[ 3 ] = x;
         Heap.HEAPF32[ 4 ] = y;
@@ -61,11 +69,15 @@ class Vec3 {
         return new Vec3( Heap.HEAPF32[ 6 ], Heap.HEAPF32[ 7 ], Heap.HEAPF32[ 8 ] );
     }
 
-    mad( v, u ) {
+    mul( x = 1, y = x, z = x ) {
+        return Vec3.mul( this, x, y, z );
+    }
+
+    static mad( w, v, u ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = w.x;
+        Heap.HEAPF32[ 1 ] = w.y;
+        Heap.HEAPF32[ 2 ] = w.z;
 
         Heap.HEAPF32[ 3 ] = v.x;
         Heap.HEAPF32[ 4 ] = v.y;
@@ -82,11 +94,15 @@ class Vec3 {
         return new Vec3( Heap.HEAPF32[ 9 ], Heap.HEAPF32[ 10 ], Heap.HEAPF32[ 11 ] );
     }
 
-    length() {
+    mad( v, u ) {
+        return Vec3.mad( this, v, u );
+    }
+
+    static length( v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = v.x;
+        Heap.HEAPF32[ 1 ] = v.y;
+        Heap.HEAPF32[ 2 ] = v.z;
         
         // execute
         __Native._mathgasm_float3_length( 0, 12 ); 
@@ -95,11 +111,15 @@ class Vec3 {
         return Heap.HEAPF32[ 3 ];
     }
 
-    dot( v ) {
+    length() {
+        return Vec3.length( this );
+    }
+
+    static dot( u, v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = u.x;
+        Heap.HEAPF32[ 1 ] = u.y;
+        Heap.HEAPF32[ 2 ] = u.z;
         Heap.HEAPF32[ 3 ] = v.x;
         Heap.HEAPF32[ 4 ] = v.y;
         Heap.HEAPF32[ 5 ] = v.z;
@@ -109,13 +129,17 @@ class Vec3 {
 
         // copy result
         return Heap.HEAPF32[ 6 ];
+    } 
+
+    dot( v ) {
+        return Vec3.dot( this, v );
     }
 
-    normalized() {
+    static normalized( v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = v.x;
+        Heap.HEAPF32[ 1 ] = v.y;
+        Heap.HEAPF32[ 2 ] = v.z;
 
         // execute
         __Native._mathgasm_float3_normalize( 0, 12 ); 
@@ -124,11 +148,15 @@ class Vec3 {
         return new Vec3( Heap.HEAPF32[ 3 ], Heap.HEAPF32[ 4 ], Heap.HEAPF32[ 5 ] );
     }
 
-    cross( v ) {
+    normalized() {
+        return Vec3.normalized( this );
+    }
+
+    static cross( u, v ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = u.x;
+        Heap.HEAPF32[ 1 ] = u.y;
+        Heap.HEAPF32[ 2 ] = u.z;
 
         Heap.HEAPF32[ 3 ] = v.x;
         Heap.HEAPF32[ 4 ] = v.y;
@@ -141,11 +169,15 @@ class Vec3 {
         return new Vec3( Heap.HEAPF32[ 6 ], Heap.HEAPF32[ 7 ], Heap.HEAPF32[ 8 ] );
     }
 
-    reflect( n ) {
+    cross( v ) {
+        return Vec3.cross( this, v );
+    }
+
+    static reflect( v, n ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = v.x;
+        Heap.HEAPF32[ 1 ] = v.y;
+        Heap.HEAPF32[ 2 ] = v.z;
 
         Heap.HEAPF32[ 3 ] = n.x;
         Heap.HEAPF32[ 4 ] = n.y;
@@ -158,11 +190,15 @@ class Vec3 {
         return new Vec3( Heap.HEAPF32[ 6 ], Heap.HEAPF32[ 7 ], Heap.HEAPF32[ 8 ] );
     }
 
-    lerped( v, dt ) {
+    reflect( n ) {
+        return Vec3.reflect( this, n );
+    }
+
+    static lerped( u, v, dt ) {
         // load vectors into memory
-        Heap.HEAPF32[ 0 ] = this.x;
-        Heap.HEAPF32[ 1 ] = this.y;
-        Heap.HEAPF32[ 2 ] = this.z;
+        Heap.HEAPF32[ 0 ] = u.x;
+        Heap.HEAPF32[ 1 ] = u.y;
+        Heap.HEAPF32[ 2 ] = u.z;
 
         Heap.HEAPF32[ 3 ] = v.x;
         Heap.HEAPF32[ 4 ] = v.y;
@@ -175,6 +211,10 @@ class Vec3 {
 
         // copy result
         return new Vec3( Heap.HEAPF32[ 7 ], Heap.HEAPF32[ 8 ], Heap.HEAPF32[ 9 ] );
+    }
+
+    lerped( v, dt ) {
+        return Vec3.lerped( this, v, dt );
     }
 }
 

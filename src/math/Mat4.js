@@ -16,24 +16,24 @@ class Mat4 {
         this.m03 = m03; this.m13 = m13; this.m23 = m23; this.m33 = m33;
     }
 
-    mulMat( m ) {
+    static mulMat( n, m ) {
         // load matrices into memory
-        Heap.HEAPF32[ 0 ]  = this.m00;
-        Heap.HEAPF32[ 1 ]  = this.m01;
-        Heap.HEAPF32[ 2 ]  = this.m02;
-        Heap.HEAPF32[ 3 ]  = this.m03;
-        Heap.HEAPF32[ 4 ]  = this.m10;
-        Heap.HEAPF32[ 5 ]  = this.m11;
-        Heap.HEAPF32[ 6 ]  = this.m12;
-        Heap.HEAPF32[ 7 ]  = this.m13;
-        Heap.HEAPF32[ 8 ]  = this.m20;
-        Heap.HEAPF32[ 9 ]  = this.m21;
-        Heap.HEAPF32[ 10 ] = this.m22;
-        Heap.HEAPF32[ 11 ] = this.m23;
-        Heap.HEAPF32[ 12 ] = this.m30;
-        Heap.HEAPF32[ 13 ] = this.m31;
-        Heap.HEAPF32[ 14 ] = this.m32;
-        Heap.HEAPF32[ 15 ] = this.m33;
+        Heap.HEAPF32[ 0 ]  = n.m00;
+        Heap.HEAPF32[ 1 ]  = n.m01;
+        Heap.HEAPF32[ 2 ]  = n.m02;
+        Heap.HEAPF32[ 3 ]  = n.m03;
+        Heap.HEAPF32[ 4 ]  = n.m10;
+        Heap.HEAPF32[ 5 ]  = n.m11;
+        Heap.HEAPF32[ 6 ]  = n.m12;
+        Heap.HEAPF32[ 7 ]  = n.m13;
+        Heap.HEAPF32[ 8 ]  = n.m20;
+        Heap.HEAPF32[ 9 ]  = n.m21;
+        Heap.HEAPF32[ 10 ] = n.m22;
+        Heap.HEAPF32[ 11 ] = n.m23;
+        Heap.HEAPF32[ 12 ] = n.m30;
+        Heap.HEAPF32[ 13 ] = n.m31;
+        Heap.HEAPF32[ 14 ] = n.m32;
+        Heap.HEAPF32[ 15 ] = n.m33;
 
         Heap.HEAPF32[ 16 ] = m.m00;
         Heap.HEAPF32[ 17 ] = m.m01;
@@ -63,24 +63,28 @@ class Mat4 {
         );
     }
 
-    mulVec( v ) {
+    mulMat( m ) {
+        return Mat4.mulMat( this, m );
+    }
+
+    static mulVec( m, v ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ]  = this.m00;
-        Heap.HEAPF32[ 1 ]  = this.m01;
-        Heap.HEAPF32[ 2 ]  = this.m02;
-        Heap.HEAPF32[ 3 ]  = this.m03;
-        Heap.HEAPF32[ 4 ]  = this.m10;
-        Heap.HEAPF32[ 5 ]  = this.m11;
-        Heap.HEAPF32[ 6 ]  = this.m12;
-        Heap.HEAPF32[ 7 ]  = this.m13;
-        Heap.HEAPF32[ 8 ]  = this.m20;
-        Heap.HEAPF32[ 9 ]  = this.m21;
-        Heap.HEAPF32[ 10 ] = this.m22;
-        Heap.HEAPF32[ 11 ] = this.m23;
-        Heap.HEAPF32[ 12 ] = this.m30;
-        Heap.HEAPF32[ 13 ] = this.m31;
-        Heap.HEAPF32[ 14 ] = this.m32;
-        Heap.HEAPF32[ 15 ] = this.m33;
+        Heap.HEAPF32[ 0 ]  = m.m00;
+        Heap.HEAPF32[ 1 ]  = m.m01;
+        Heap.HEAPF32[ 2 ]  = m.m02;
+        Heap.HEAPF32[ 3 ]  = m.m03;
+        Heap.HEAPF32[ 4 ]  = m.m10;
+        Heap.HEAPF32[ 5 ]  = m.m11;
+        Heap.HEAPF32[ 6 ]  = m.m12;
+        Heap.HEAPF32[ 7 ]  = m.m13;
+        Heap.HEAPF32[ 8 ]  = m.m20;
+        Heap.HEAPF32[ 9 ]  = m.m21;
+        Heap.HEAPF32[ 10 ] = m.m22;
+        Heap.HEAPF32[ 11 ] = m.m23;
+        Heap.HEAPF32[ 12 ] = m.m30;
+        Heap.HEAPF32[ 13 ] = m.m31;
+        Heap.HEAPF32[ 14 ] = m.m32;
+        Heap.HEAPF32[ 15 ] = m.m33;
 
         Heap.HEAPF32[ 16 ] = v.x;
         Heap.HEAPF32[ 17 ] = v.y;
@@ -92,24 +96,28 @@ class Mat4 {
         return new Vec3( Heap.HEAPF32[ 19 ], Heap.HEAPF32[ 20 ], Heap.HEAPF32[ 21 ] );
     }
 
-    mulScalar( s ) {
+    mulVec( v ) {
+        return Mat4.mulVec( this, v );
+    }
+
+    static mulScalar( m, s ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ]  = this.m00;
-        Heap.HEAPF32[ 1 ]  = this.m01;
-        Heap.HEAPF32[ 2 ]  = this.m02;
-        Heap.HEAPF32[ 3 ]  = this.m03;
-        Heap.HEAPF32[ 4 ]  = this.m10;
-        Heap.HEAPF32[ 5 ]  = this.m11;
-        Heap.HEAPF32[ 6 ]  = this.m12;
-        Heap.HEAPF32[ 7 ]  = this.m13;
-        Heap.HEAPF32[ 8 ]  = this.m20;
-        Heap.HEAPF32[ 9 ]  = this.m21;
-        Heap.HEAPF32[ 10 ] = this.m22;
-        Heap.HEAPF32[ 11 ] = this.m23;
-        Heap.HEAPF32[ 12 ] = this.m30;
-        Heap.HEAPF32[ 13 ] = this.m31;
-        Heap.HEAPF32[ 14 ] = this.m32;
-        Heap.HEAPF32[ 15 ] = this.m33;
+        Heap.HEAPF32[ 0 ]  = m.m00;
+        Heap.HEAPF32[ 1 ]  = m.m01;
+        Heap.HEAPF32[ 2 ]  = m.m02;
+        Heap.HEAPF32[ 3 ]  = m.m03;
+        Heap.HEAPF32[ 4 ]  = m.m10;
+        Heap.HEAPF32[ 5 ]  = m.m11;
+        Heap.HEAPF32[ 6 ]  = m.m12;
+        Heap.HEAPF32[ 7 ]  = m.m13;
+        Heap.HEAPF32[ 8 ]  = m.m20;
+        Heap.HEAPF32[ 9 ]  = m.m21;
+        Heap.HEAPF32[ 10 ] = m.m22;
+        Heap.HEAPF32[ 11 ] = m.m23;
+        Heap.HEAPF32[ 12 ] = m.m30;
+        Heap.HEAPF32[ 13 ] = m.m31;
+        Heap.HEAPF32[ 14 ] = m.m32;
+        Heap.HEAPF32[ 15 ] = m.m33;
 
         Heap.HEAPF32[ 16 ] = s;
 
@@ -124,24 +132,28 @@ class Mat4 {
         );
     }
 
-    invertedTR() {
+    mulScalar( s ) {
+        return Mat4.mulScalar( this, s );
+    }
+
+    static invertedTR( m ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ]  = this.m00;
-        Heap.HEAPF32[ 1 ]  = this.m01;
-        Heap.HEAPF32[ 2 ]  = this.m02;
-        Heap.HEAPF32[ 3 ]  = this.m03;
-        Heap.HEAPF32[ 4 ]  = this.m10;
-        Heap.HEAPF32[ 5 ]  = this.m11;
-        Heap.HEAPF32[ 6 ]  = this.m12;
-        Heap.HEAPF32[ 7 ]  = this.m13;
-        Heap.HEAPF32[ 8 ]  = this.m20;
-        Heap.HEAPF32[ 9 ]  = this.m21;
-        Heap.HEAPF32[ 10 ] = this.m22;
-        Heap.HEAPF32[ 11 ] = this.m23;
-        Heap.HEAPF32[ 12 ] = this.m30;
-        Heap.HEAPF32[ 13 ] = this.m31;
-        Heap.HEAPF32[ 14 ] = this.m32;
-        Heap.HEAPF32[ 15 ] = this.m33;
+        Heap.HEAPF32[ 0 ]  = m.m00;
+        Heap.HEAPF32[ 1 ]  = m.m01;
+        Heap.HEAPF32[ 2 ]  = m.m02;
+        Heap.HEAPF32[ 3 ]  = m.m03;
+        Heap.HEAPF32[ 4 ]  = m.m10;
+        Heap.HEAPF32[ 5 ]  = m.m11;
+        Heap.HEAPF32[ 6 ]  = m.m12;
+        Heap.HEAPF32[ 7 ]  = m.m13;
+        Heap.HEAPF32[ 8 ]  = m.m20;
+        Heap.HEAPF32[ 9 ]  = m.m21;
+        Heap.HEAPF32[ 10 ] = m.m22;
+        Heap.HEAPF32[ 11 ] = m.m23;
+        Heap.HEAPF32[ 12 ] = m.m30;
+        Heap.HEAPF32[ 13 ] = m.m31;
+        Heap.HEAPF32[ 14 ] = m.m32;
+        Heap.HEAPF32[ 15 ] = m.m33;
 
         // execute
         __Native._mathgasm_float4x4_inverse_tr( 0, 64 ); 
@@ -154,24 +166,28 @@ class Mat4 {
         );
     }
 
-    inverted() {
+    invertedTR() {
+        return Mat4.invertedTR( this );
+    }
+
+    static inverted( m ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ]  = this.m00;
-        Heap.HEAPF32[ 1 ]  = this.m01;
-        Heap.HEAPF32[ 2 ]  = this.m02;
-        Heap.HEAPF32[ 3 ]  = this.m03;
-        Heap.HEAPF32[ 4 ]  = this.m10;
-        Heap.HEAPF32[ 5 ]  = this.m11;
-        Heap.HEAPF32[ 6 ]  = this.m12;
-        Heap.HEAPF32[ 7 ]  = this.m13;
-        Heap.HEAPF32[ 8 ]  = this.m20;
-        Heap.HEAPF32[ 9 ]  = this.m21;
-        Heap.HEAPF32[ 10 ] = this.m22;
-        Heap.HEAPF32[ 11 ] = this.m23;
-        Heap.HEAPF32[ 12 ] = this.m30;
-        Heap.HEAPF32[ 13 ] = this.m31;
-        Heap.HEAPF32[ 14 ] = this.m32;
-        Heap.HEAPF32[ 15 ] = this.m33;
+        Heap.HEAPF32[ 0 ]  = m.m00;
+        Heap.HEAPF32[ 1 ]  = m.m01;
+        Heap.HEAPF32[ 2 ]  = m.m02;
+        Heap.HEAPF32[ 3 ]  = m.m03;
+        Heap.HEAPF32[ 4 ]  = m.m10;
+        Heap.HEAPF32[ 5 ]  = m.m11;
+        Heap.HEAPF32[ 6 ]  = m.m12;
+        Heap.HEAPF32[ 7 ]  = m.m13;
+        Heap.HEAPF32[ 8 ]  = m.m20;
+        Heap.HEAPF32[ 9 ]  = m.m21;
+        Heap.HEAPF32[ 10 ] = m.m22;
+        Heap.HEAPF32[ 11 ] = m.m23;
+        Heap.HEAPF32[ 12 ] = m.m30;
+        Heap.HEAPF32[ 13 ] = m.m31;
+        Heap.HEAPF32[ 14 ] = m.m32;
+        Heap.HEAPF32[ 15 ] = m.m33;
 
         // execute
         __Native._mathgasm_float4x4_inverse( 0, 64 ); 
@@ -184,7 +200,11 @@ class Mat4 {
         );
     }
 
-    setFromQuaternion( q ) {
+    inverted() {
+        return Mat4.inverted( this );
+    }
+
+    static setFromQuaternion( q ) {
         // load data into memory
         Heap.HEAPF32[ 0 ] = q.axis.x;
         Heap.HEAPF32[ 1 ] = q.axis.y;
@@ -202,24 +222,28 @@ class Mat4 {
         );
     }
 
-    decompose() {
+    setFromQuaternion( q ) {
+        return Mat4.setFromQuaternion( q );
+    }
+
+    static decompose( m ) {
         // load data into memory
-        Heap.HEAPF32[ 0 ]  = this.m00;
-        Heap.HEAPF32[ 1 ]  = this.m01;
-        Heap.HEAPF32[ 2 ]  = this.m02;
-        Heap.HEAPF32[ 3 ]  = this.m03;
-        Heap.HEAPF32[ 4 ]  = this.m10;
-        Heap.HEAPF32[ 5 ]  = this.m11;
-        Heap.HEAPF32[ 6 ]  = this.m12;
-        Heap.HEAPF32[ 7 ]  = this.m13;
-        Heap.HEAPF32[ 8 ]  = this.m20;
-        Heap.HEAPF32[ 9 ]  = this.m21;
-        Heap.HEAPF32[ 10 ] = this.m22;
-        Heap.HEAPF32[ 11 ] = this.m23;
-        Heap.HEAPF32[ 12 ] = this.m30;
-        Heap.HEAPF32[ 13 ] = this.m31;
-        Heap.HEAPF32[ 14 ] = this.m32;
-        Heap.HEAPF32[ 15 ] = this.m33;
+        Heap.HEAPF32[ 0 ]  = m.m00;
+        Heap.HEAPF32[ 1 ]  = m.m01;
+        Heap.HEAPF32[ 2 ]  = m.m02;
+        Heap.HEAPF32[ 3 ]  = m.m03;
+        Heap.HEAPF32[ 4 ]  = m.m10;
+        Heap.HEAPF32[ 5 ]  = m.m11;
+        Heap.HEAPF32[ 6 ]  = m.m12;
+        Heap.HEAPF32[ 7 ]  = m.m13;
+        Heap.HEAPF32[ 8 ]  = m.m20;
+        Heap.HEAPF32[ 9 ]  = m.m21;
+        Heap.HEAPF32[ 10 ] = m.m22;
+        Heap.HEAPF32[ 11 ] = m.m23;
+        Heap.HEAPF32[ 12 ] = m.m30;
+        Heap.HEAPF32[ 13 ] = m.m31;
+        Heap.HEAPF32[ 14 ] = m.m32;
+        Heap.HEAPF32[ 15 ] = m.m33;
 
         // execute
         __Native._mathgasm_float4x4_decompose( 0, 64 ); 
@@ -238,6 +262,10 @@ class Mat4 {
                 Heap.HEAPF32[ 41 ]
             )
         };
+    }
+
+    decompose() {
+        return Mat4.decompose( this );
     }
 }
 
