@@ -1,5 +1,5 @@
 // COMPILE TIME DEFINITIONS (Generated via gulp) 
-var __DATE__ = "Wed Mar 29 2017 12:38:43 GMT+0200 (CEST)"; 
+var __DATE__ = "Wed Mar 29 2017 13:02:57 GMT+0200 (CEST)"; 
 // END COMPILE TIME DEFINITIONS 
  
 console.log('Compiled at', __DATE__);
@@ -33,6 +33,9 @@ var createClass = function () {
   };
 }();
 
+/**
+ * WASM memory heap
+ */
 var Heap = function () {
     function Heap() {
         classCallCheck(this, Heap);
@@ -93,42 +96,6 @@ var Bootstrapper = function () {
     createClass(Bootstrapper, [{
         key: 'initialize',
         value: function initialize(path, callback) {
-            // fetch( path )
-            // .then( response => response.arrayBuffer() )
-            // .then( buffer => WebAssembly.compile( buffer ) )
-            // .then( module => {
-            //     const imports = {
-            //         env: {
-            //             memoryBase: 0,
-            //             tableBase: 0,
-            //             memory: new WebAssembly.Memory({
-            //                 initial: 128
-            //             }),
-            //             table: new WebAssembly.Table({
-            //                 initial: 0,
-            //                 element: 'anyfunc'
-            //             }),
-            //             DYNAMICTOP_PTR : 0,
-            //             tempDoublePtr : 0,
-            //             STACKTOP: 0,
-            //             STACK_MAX: 0,
-            //             ABORT : 0,
-            //             abortStackOverflow : function(){},
-            //             _malloc : Heap.malloc.bind( Heap ),
-            //             _printf : console.log
-            //         },
-            //         global: {
-            //             NaN :0,
-            //             Infinity : 0
-            //         }
-            //     }
-
-            //     const wasmModule = new WebAssembly.Instance( module, imports );
-            //     Heap.__init( imports.env.memory );
-            //     __Native = wasmModule.exports;
-            // })
-            // .then( callback );
-
             var imports = {
                 env: {
                     memoryBase: 0,
