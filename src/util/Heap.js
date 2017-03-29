@@ -1,5 +1,8 @@
+/**
+ * WASM memory heap
+ */
 class Heap {
-    constructor(  ) {
+    constructor() {
         
     }
 
