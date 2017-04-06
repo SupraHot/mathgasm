@@ -49,7 +49,7 @@ extern "C" {
 
     void mathgasm_float2_lerp( float* a, float* b, float* dt, float* dest ) {
         dest[ 0 ] = a[ 0 ] + ( b[ 0 ] - a[ 0 ] ) * dt[ 0 ];
-        dest[ 1 ] = a[ 1 ] + ( b[ 1 ] - a[ 1 ] ) * dt[ 1 ];
+        dest[ 1 ] = a[ 1 ] + ( b[ 1 ] - a[ 1 ] ) * dt[ 0 ];
      }
 
     // - - - - - - - - - - float3 - - - - - - - - -
